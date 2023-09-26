@@ -1,0 +1,49 @@
+.componentPadding{
+    padding: 16px 32px;
+}
+
+.mainDiv{
+    position: absolute; 
+    left: 52%;
+    padding: 100px 0;
+}
+
+.bunDiv { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding:16px 32px;
+}
+
+.compMainDiv {
+    display: flex;
+    padding: 16px 0;
+}
+
+.compIcon {
+    padding: 30px 0;
+}
+
+.compElement {
+    padding: 0 10px;
+    width: 100%;
+}
+
+.constrCompnent {
+    overflow: auto;
+    height: 570px;
+}
+
+.result {
+    display: flex;
+    justify-content: flex-end;
+    padding: 30px 20px;
+}
+
+.resultPrice {
+    padding: 10px 10px;
+}
+
+.buttonStyle{
+    margin: 0 20px;
+}

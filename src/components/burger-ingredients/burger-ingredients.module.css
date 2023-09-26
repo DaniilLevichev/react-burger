@@ -1,0 +1,45 @@
+.showPadding {
+    padding: 24px 0;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.priceText {
+    margin-right: 5px;
+}
+
+.ingredientPad {
+    padding: 4px 0;
+}
+
+.mainDiv {
+    position: absolute;
+    right: 52%;
+}
+
+.headers {
+    display: flex;
+    align-items: left;
+    padding:40px 0;
+}
+
+.tabs {
+    padding:20px 0;
+    display: flex;
+}
+
+.ingredientsDiv {
+    overflow: auto;
+     height: 1000px;
+}
+
+.ingredients {
+    display: grid; 
+    grid-template-columns: 300px 300px; 
+    justify-content: start;
+}
