@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {BurgerPropTypes} from '../../prop-types/prop-types';
 import {ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import mainStyles from './burger-constructor.module.css'
@@ -73,8 +73,6 @@ const BurgerConctructor = (props) => {
     );
 }
 
-BurgerConctructor.proipTypes= {
-    components: PropTypes.arrayOf(PropTypes.object)
-}
+BurgerConctructor.propTypes = BurgerPropTypes;
 
   export default BurgerConctructor;

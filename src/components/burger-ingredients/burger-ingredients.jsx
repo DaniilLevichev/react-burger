@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useEffect  } from 'react';
-import PropTypes from 'prop-types';
+import {BurgerPropTypes} from '../../prop-types/prop-types';
 import {Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import mainStyles from './burger-ingredients.module.css'
@@ -52,7 +52,7 @@ const ShowFilling = (ingredient) => {
     return null;
 }
 
-const BurgerIngredints = (props) => {
+const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('one')
     const setTab = (tab) => {
         const element = document.getElementById(tab);
@@ -102,8 +102,7 @@ const BurgerIngredints = (props) => {
     )
 }
 
-BurgerIngredints.proipTypes= {
-    ingredients: PropTypes.arrayOf(PropTypes.object)
-}
 
-  export default BurgerIngredints;
+BurgerIngredients.propTypes = BurgerPropTypes;
+
+  export default BurgerIngredients;
