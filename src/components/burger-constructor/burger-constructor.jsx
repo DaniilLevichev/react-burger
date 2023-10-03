@@ -1,6 +1,9 @@
 import React from 'react';
 import {BurgerPropTypes} from '../../prop-types/prop-types';
 import {ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import OrderDetails from '../order-details/order-details';
 
 import mainStyles from './burger-constructor.module.css'
 
@@ -39,12 +42,16 @@ const placeComponent = (component) => {
 }
 
 const BurgerConctructor = (props) => {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const setIsModalClose = () => {
+        setIsModalOpen(false);
+    }
     return (      
         <div className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
                 {props.components.map((component) => (
                     <React.Fragment key={component._id}>
-                        {placeBun(component, '60666c42cc7b410027a1a9b1', '(верх)')}
+                        {placeBun(component, '643d69a5c3f7b9001cfa093c', '(верх)')}
                     </React.Fragment>    
                 ))}
             </div>
@@ -60,19 +67,24 @@ const BurgerConctructor = (props) => {
             <div  className={mainStyles.bunDiv}>
                 {props.components.map((component) => (
                     <React.Fragment key={component._id}>
-                        {placeBun(component, '60666c42cc7b410027a1a9b1', '(низ)')}
+                        {placeBun(component, '643d69a5c3f7b9001cfa093c', '(низ)')}
                     </React.Fragment>
                 ))}
             </div>
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>19010</a>
                 <CurrencyIcon type="primary" />
-                <Button  htmlType="button" type="primary" size="medium">Офоромить заказ</Button>
+                <Button onClick={() => {setIsModalOpen(true);}} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>
             </div>
+            {isModalOpen && 
+            <Modal onClick={setIsModalClose}>
+                <OrderDetails/>
+                <ModalOverlay onClick={setIsModalClose}/>
+            </Modal>}
         </div>
     );
 }
 
 BurgerConctructor.propTypes = BurgerPropTypes;
 
-  export default BurgerConctructor;
+export default BurgerConctructor;

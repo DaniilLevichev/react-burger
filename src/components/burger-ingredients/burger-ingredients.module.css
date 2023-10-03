@@ -43,3 +43,28 @@
     grid-template-columns: 300px 300px; 
     justify-content: start;
 }
+
+.section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px 0;
+  }
+  
+.sectionCell {
+    width: 130px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detailIngredientName {
+    padding: 16px 0;
+}

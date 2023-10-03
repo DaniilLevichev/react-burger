@@ -1,63 +1,45 @@
-import React, { Fragment, useRef, useEffect  } from 'react';
+import React from 'react';
 import {BurgerPropTypes} from '../../prop-types/prop-types';
 import {Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import Modal from '../modal/modal';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 import mainStyles from './burger-ingredients.module.css'
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
-const ShowBun = (ingredient) => {
-    if (ingredient.type === 'bun') {
-        return (
-            <div className={mainStyles.showPadding}>
-                <img src={ingredient.image}/>
-                <div className={mainStyles.price}>
-                    <p className={`${mainStyles.priceText} text text_type_digits-default`}>{ingredient.price}</p>
-                    <CurrencyIcon/>
-                </div>
-                <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{ingredient.name}</p>
-            </div>
-        )
-    }
-    return null;
-}
 
-const ShowSauce = (ingredient) => {
-    if (ingredient.type === 'sauce') {
-        return (
-            <div className={mainStyles.showPadding}>
-                <img src={ingredient.image}/>
-                <div className={mainStyles.price}>
-                    <p className={`${mainStyles.priceText} text text_type_digits-default`}>{ingredient.price}</p>
-                    <CurrencyIcon/>
-                </div>
-                <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{ingredient.name}</p>
-            </div>
-        )
-    }
-    return null;
-}
-
-const ShowFilling = (ingredient) => {
-    if (ingredient.type === 'main') {
-        return (
-            <div className={mainStyles.showPadding}>
-                <img src={ingredient.image}/>
-                <div className={mainStyles.price}>
-                    <p className={`${mainStyles.priceText} text text_type_digits-default`}>{ingredient.price}</p>
-                    <CurrencyIcon/>
-                </div>
-                <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{ingredient.name}</p>
-            </div>
-        )
-    }
-    return null;
-}
 
 const BurgerIngredients = (props) => {
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [ingrState, setIngredient] = React.useState({});
+    
+    const setIsModalClose = () => {
+        setIsModalOpen(false);
+    }
+
     const [current, setCurrent] = React.useState('one')
     const setTab = (tab) => {
         const element = document.getElementById(tab);
         if (element) element.scrollIntoView({ behavior: "smooth" });
     };
+
+    const showIngredient = (ingredient, type) => {
+        if (ingredient.type === type) {
+            return (
+                <div className={mainStyles.showPadding} onClick={() => {setIsModalOpen(true); setIngredient(ingredient)}}>
+                    
+                    <img src={ingredient.image}/>
+                    <div className={mainStyles.price}>
+                        <p className={`${mainStyles.priceText} text text_type_digits-default`}>{ingredient.price}</p>
+                        <CurrencyIcon/>
+                    </div>
+                    <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{ingredient.name}</p>
+                </div>
+            )
+        }
+        return null;
+    }
+
     return (
         <div className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.headers} text text_type_main-large`}>Соберите бургер </h1>  
@@ -76,8 +58,8 @@ const BurgerIngredients = (props) => {
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div className={mainStyles.ingredients}> 
                     {props.ingredients.map((ingredient)=>(
-                        <React.Fragment key={ingredient._id}>
-                            {ShowBun(ingredient)}
+                        <React.Fragment key={ingredient._id} >
+                            {showIngredient(ingredient, 'bun')}
                         </React.Fragment>  
                     ))}
                 </div>
@@ -85,7 +67,7 @@ const BurgerIngredients = (props) => {
                 <div className={mainStyles.ingredients}> 
                     {props.ingredients.map((ingredient)=>(
                         <React.Fragment key={ingredient._id}>
-                            {ShowSauce(ingredient)}
+                            {showIngredient(ingredient, 'sauce')}
                         </React.Fragment>  
                     ))}
                 </div>      
@@ -93,11 +75,16 @@ const BurgerIngredients = (props) => {
                 <div className={mainStyles.ingredients}> 
                     {props.ingredients.map((ingredient)=>(
                         <React.Fragment key={ingredient._id}>
-                            {ShowFilling(ingredient)}
+                            {showIngredient(ingredient, 'main')}
                         </React.Fragment>  
                     ))}
                 </div>
-            </div>     
+            </div>
+            {isModalOpen && 
+            <Modal header='Детали ингридиента' ingredient={ingrState} onClick={setIsModalClose}>
+                <IngredientDetails ingredient={ingrState}/>
+                <ModalOverlay onClick={setIsModalClose}/>
+            </Modal>}
         </div>
     )
 }

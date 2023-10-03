@@ -4,12 +4,12 @@ import { Logo, BurgerIcon , Typography, Box, ListIcon, ProfileIcon  } from '@ya.
 import mainStyles from './app-header.module.css'
 
 
-export default class AppHeader extends React.Component {
-    render() {
+export default function AppHeader () {
+
         return (
             <nav className={mainStyles.background}>
                 <section className={mainStyles.section}>
-                    <div className={mainStyles.extremeDiv}>
+                    <div className={mainStyles.extremeDiv} >
                         <a className={mainStyles.links}>
                             <BurgerIcon type='primary'/>
                             <p className={`${mainStyles.text} text text_type_main-default`}>Конструктор</p>
@@ -31,5 +31,4 @@ export default class AppHeader extends React.Component {
                 </section>
             </nav>
       );
-    }
-  }
+    };
