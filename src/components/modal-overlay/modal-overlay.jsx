@@ -4,12 +4,9 @@ import mainStyles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
  const ModalOverlay = (props) => {
-  const modalRoot = document.getElementById('portal-root');
-
-  return ReactDOM.createPortal(
+  return(
     <div className={mainStyles.portalContainer} onClick={props.onClick}>
-    </div>,
-    modalRoot
+    </div>
   );
 };
 

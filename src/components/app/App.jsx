@@ -13,9 +13,13 @@ function App() {
 
   const url = "https://norma.nomoreparties.space/api/ingredients";
 
+  const checkReponse = (res) => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  };
+
   useEffect(()=>{
     fetch(url)
-    .then(response => response.json())
+    .then(checkReponse)
     .then(data => setData(data.data))
     .catch(error => console.log(error));
   }, []);
@@ -24,13 +28,11 @@ function App() {
   return (
     <div className="App">
         <AppHeader className='App-header'/>
-        {data !== null ? (
+        {data !== null && (
           <>
             <BurgerIngredients ingredients={data}/>
             <BurgerConctructor components={data}/>
           </>
-        ) : (
-          <div></div>
         )}
     </div>
   );

@@ -79,7 +79,6 @@ const BurgerConctructor = (props) => {
             {isModalOpen && 
             <Modal onClick={setIsModalClose}>
                 <OrderDetails/>
-                <ModalOverlay onClick={setIsModalClose}/>
             </Modal>}
         </div>
     );

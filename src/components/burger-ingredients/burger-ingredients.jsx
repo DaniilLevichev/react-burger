@@ -81,9 +81,8 @@ const BurgerIngredients = (props) => {
                 </div>
             </div>
             {isModalOpen && 
-            <Modal header='Детали ингридиента' ingredient={ingrState} onClick={setIsModalClose}>
+            <Modal header='Детали ингридиента' onClick={setIsModalClose}>
                 <IngredientDetails ingredient={ingrState}/>
-                <ModalOverlay onClick={setIsModalClose}/>
             </Modal>}
         </div>
     )
