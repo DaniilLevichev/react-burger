@@ -4,13 +4,14 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { useDrag } from "react-dnd";
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { CHECK_DETAIL } from '../../services/actions/ingredient-detail';
 
 export const ShowIngredient = (props) =>{
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const [ingrState,   setIngredient]    = React.useState({});
     const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
     const dataBun = useSelector(state => state.constructorReducer.selectedBun);
+
+    const dispatch = useDispatch();
     
     const countIngredient = (ingredients, bun, id, type) =>{
         let cnt = 0;
@@ -23,17 +24,13 @@ export const ShowIngredient = (props) =>{
         return cnt;
     }
 
-    const setIsModalClose = () => {
-        setIsModalOpen(false);
-    }
-
     const [, dragRef] = useDrag({
         type: 'dragIngredient',
         item: props.ingredient
     })
     if (props.ingredient.type === props.type) {
         return (
-            <div ref={dragRef} className={mainStyles.showPadding} onClick={() => {setIsModalOpen(true); setIngredient(props.ingredient)}}>       
+            <div ref={dragRef} className={mainStyles.showPadding} onClick={() => {props.setIsModalOpen(true); props.setIngredient(props.ingredient); dispatch({type: CHECK_DETAIL, data:props.ingredient})}}>       
                 {countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type) > 0 && <Counter count={countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type)} size="small" />}
                 <img src={props.ingredient.image}/>
                 <div className={mainStyles.price}>
@@ -41,10 +38,7 @@ export const ShowIngredient = (props) =>{
                     <CurrencyIcon/>
                 </div>
                 <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{props.ingredient.name}</p>
-                {isModalOpen && 
-                <Modal header='Детали ингридиента' onClick={setIsModalClose}>
-                    <IngredientDetails ingredient={ingrState}/>
-                </Modal>}
+                
             </div>
         )
     }

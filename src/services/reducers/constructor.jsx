@@ -21,9 +21,7 @@ export const constructorReducer = (state = initialState, action) => {
             return {...state, price: state.price - action.data.price, selectedIngredients: newIngredients}
         }
         case UPDATE_COMPONENT_ORDER: {
-            return {
-                ...state,
-                components: action.data // обновление порядка компонентов
+            return {...state, selectedIngredients: action.data
               }
         }
         default: {

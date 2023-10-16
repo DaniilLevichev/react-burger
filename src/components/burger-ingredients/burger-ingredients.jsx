@@ -2,18 +2,30 @@ import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
 import { BurgerPropTypes } from '../../prop-types/prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { ShowIngredient } from './show-ingredient';
 import { useInView } from 'react-intersection-observer';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
 
 const BurgerIngredients = () => {
 
     const data = useSelector(state => state.ingredients);
+    const [isModalOpen, setIsModalOpen]   = React.useState(false);
+    const [ingrState,   setIngredient]    = React.useState({});
 
-    const [refBun,      inViewBun] = useInView();
+    const dispatch = useDispatch();
+
+    const setIsModalClose = () => {
+        setIsModalOpen(false);
+        dispatch ({type: DELETE_DETAIL, data:null});
+    }
+
+    const [refBun,      inViewBun]   = useInView();
     const [refSauce,    inViewSauce] = useInView();
-    const [refMain,     inViewMain] = useInView();
+    const [refMain,     inViewMain]  = useInView();
 
     const [, dragRef] = useDrag({
         type: 'dragIngredient',
@@ -35,14 +47,14 @@ const BurgerIngredients = () => {
     return (
         <div ref={dragRef}  className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.headers} text text_type_main-large`}>Соберите бургер </h1>  
-            <div className={mainStyles.tabs} onClick={setTab(current)}>
-                <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
+            <div className={mainStyles.tabs}>
+                <Tab value="Булки" active={current === 'Булки'} onClick={setTab}>
                 Булки
                 </Tab>
-                <Tab value="Соусы" active={current === 'Соусы'} onClick={setCurrent}>
+                <Tab value="Соусы" active={current === 'Соусы'} onClick={setTab}>
                 Соусы
                 </Tab>
-                <Tab value="Начинки" active={current === 'Начинки'} onClick={setCurrent}>
+                <Tab value="Начинки" active={current === 'Начинки'} onClick={setTab}>
                 Начинки
                 </Tab>
             </div>
@@ -50,7 +62,7 @@ const BurgerIngredients = () => {
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient key={index} ingredient={ingredient} type='bun'/>
+                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={index} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
@@ -65,6 +77,10 @@ const BurgerIngredients = () => {
                         <ShowIngredient key={index} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
+                {isModalOpen && 
+                <Modal header='Детали ингридиента' onClicked={setIsModalClose}>
+                    <IngredientDetails ingredient={ingrState}/>
+                </Modal>}
             </div>
         </div>
     )

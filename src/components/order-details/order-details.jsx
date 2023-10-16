@@ -5,7 +5,7 @@ import CheckMark from '../../images/ChekMark.jpg'
 const OrderDetails = (props) => {
     return (
         <div className={mainStyles.detail}>
-            <p className={`${mainStyles.zakazNumber} text text_type_digits-large`}>034536</p>
+            <p className={`${mainStyles.zakazNumber} text text_type_digits-large`}>{props.orderNumber}</p>
             <p className={`${mainStyles.idOrder} text text_type_main-medium`}>идентификатор заказа</p>
             <img src={CheckMark} className={mainStyles.icon}/>
             <p className={`${mainStyles.startCook} text text_type_main-small`}>Ваш заказ начали готовить</p>

@@ -11,7 +11,7 @@ const Modal = (props) => {
   React.useEffect(() => {
     const clickEsc = (event) => {
       if (event.key === 'Escape') {
-        props.onClick();
+        props.onClicked();
       }
     };
 
@@ -20,15 +20,15 @@ const Modal = (props) => {
     return () => {
       document.removeEventListener('keydown', clickEsc);
     };
-  }, [props.onClick]);
+  }, [props.onClicked]);
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay onClick={props.onClick}/>
+      <ModalOverlay onClick={props.onClicked}/>
       <div className={mainStyles.square}>
         <div className={mainStyles.header} >
           <h1>{props.header}</h1>
-          <CloseIcon onClick={props.onClick}/>
+          <CloseIcon onClick={props.onClicked}/>
         </div>
         {props.children}
       </div>
@@ -39,7 +39,7 @@ const Modal = (props) => {
 
 Modal.propTypes = {
   header: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClicked: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 

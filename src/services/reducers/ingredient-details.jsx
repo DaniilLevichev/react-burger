@@ -10,7 +10,7 @@ export const detailReducer = (state = initialState, action) => {
             return {...state, checkedIngredient: action.data}
         }
         case(DELETE_DETAIL): {
-            return {...state, checkedIngredient: {}}
+            return {...state, checkedIngredient: action.data}
         }
         default:{
             return state
