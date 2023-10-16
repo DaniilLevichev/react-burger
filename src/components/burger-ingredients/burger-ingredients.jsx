@@ -1,21 +1,24 @@
 import React from 'react';
-import {BurgerPropTypes} from '../../prop-types/prop-types';
-import {Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import mainStyles from './burger-ingredients.module.css'
-import IngredientDetails from '../ingredient-details/ingredient-details';
+import { BurgerPropTypes } from '../../prop-types/prop-types';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useDrag } from "react-dnd";
+import { ShowIngredient } from './show-ingredient';
+import { useInView } from 'react-intersection-observer';
 
+const BurgerIngredients = () => {
 
+    const data = useSelector(state => state.ingredients);
 
-const BurgerIngredients = (props) => {
+    const [refBun,      inViewBun] = useInView();
+    const [refSauce,    inViewSauce] = useInView();
+    const [refMain,     inViewMain] = useInView();
 
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const [ingrState, setIngredient] = React.useState({});
-    
-    const setIsModalClose = () => {
-        setIsModalOpen(false);
-    }
+    const [, dragRef] = useDrag({
+        type: 'dragIngredient',
+        item: data.ingredients[2]
+    })
 
     const [current, setCurrent] = React.useState('one')
     const setTab = (tab) => {
@@ -23,28 +26,17 @@ const BurgerIngredients = (props) => {
         if (element) element.scrollIntoView({ behavior: "smooth" });
     };
 
-    const showIngredient = (ingredient, type) => {
-        if (ingredient.type === type) {
-            return (
-                <div className={mainStyles.showPadding} onClick={() => {setIsModalOpen(true); setIngredient(ingredient)}}>
-                    
-                    <img src={ingredient.image}/>
-                    <div className={mainStyles.price}>
-                        <p className={`${mainStyles.priceText} text text_type_digits-default`}>{ingredient.price}</p>
-                        <CurrencyIcon/>
-                    </div>
-                    <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{ingredient.name}</p>
-                </div>
-            )
-        }
-        return null;
-    }
-
+    React.useEffect(() => {
+        inViewBun && inViewSauce && !inViewMain && setCurrent('Булки');
+        !inViewBun && inViewSauce && inViewMain && setCurrent('Соусы');
+        !inViewBun && !inViewSauce && inViewMain && setCurrent('Начинки');
+    }, [inViewBun, inViewSauce, inViewMain])
+    
     return (
-        <div className={mainStyles.mainDiv}>
+        <div ref={dragRef}  className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.headers} text text_type_main-large`}>Соберите бургер </h1>  
             <div className={mainStyles.tabs} onClick={setTab(current)}>
-                <Tab  value="Булки" active={current === 'Булки'} onClick={setCurrent}>
+                <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
                 Булки
                 </Tab>
                 <Tab value="Соусы" active={current === 'Соусы'} onClick={setCurrent}>
@@ -56,34 +48,24 @@ const BurgerIngredients = (props) => {
             </div>
             <div className={`${mainStyles.ingredientsDiv} custom-scroll`}>
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
-                <div className={mainStyles.ingredients}> 
-                    {props.ingredients.map((ingredient)=>(
-                        <React.Fragment key={ingredient._id} >
-                            {showIngredient(ingredient, 'bun')}
-                        </React.Fragment>  
+                <div ref={refBun} className={mainStyles.ingredients}> 
+                    {data.ingredients.map((ingredient, index)=>(
+                        <ShowIngredient key={index} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
-                <div className={mainStyles.ingredients}> 
-                    {props.ingredients.map((ingredient)=>(
-                        <React.Fragment key={ingredient._id}>
-                            {showIngredient(ingredient, 'sauce')}
-                        </React.Fragment>  
+                <div ref={refSauce} className={mainStyles.ingredients}> 
+                    {data.ingredients.map((ingredient, index)=>(
+                        <ShowIngredient key={index} ingredient={ingredient} type='sauce'/>
                     ))}
-                </div>      
+                </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
-                <div className={mainStyles.ingredients}> 
-                    {props.ingredients.map((ingredient)=>(
-                        <React.Fragment key={ingredient._id}>
-                            {showIngredient(ingredient, 'main')}
-                        </React.Fragment>  
+                <div ref={refMain} className={mainStyles.ingredients}> 
+                    {data.ingredients.map((ingredient, index)=>(
+                        <ShowIngredient key={index} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
             </div>
-            {isModalOpen && 
-            <Modal header='Детали ингридиента' onClick={setIsModalClose}>
-                <IngredientDetails ingredient={ingrState}/>
-            </Modal>}
         </div>
     )
 }

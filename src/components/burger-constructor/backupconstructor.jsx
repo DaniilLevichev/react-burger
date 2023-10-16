@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from "react-dnd";
 import { PUT_BUN, PUT_INGREDIENT, DELETE_INGREDIENT } from '../../services/actions/constructor';   
 import { v4 as uuidv4 } from 'uuid';
-import { PlaceComponent } from './place-component';
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
@@ -28,9 +27,29 @@ const BurgerConctructor = () => {
             }
         }
     });
+    console.log(handlerId);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const setIsModalClose = () => {
         setIsModalOpen(false);
+    }
+    const placeComponent = (component, i) => {
+        if (component.type === 'main' || component.type === 'sauce') {
+            return(
+                <div className={mainStyles.compMainDiv}>
+                    <div className={mainStyles.compIcon}>
+                        <DragIcon/> 
+                    </div>
+                    <div className={mainStyles.compElement}>
+                        <ConstructorElement key={component._id}
+                        text={component.name}
+                        price={component.price}
+                        thumbnail={component.image_mobile}
+                        handleClose={()=>{dispatch({type: DELETE_INGREDIENT, data: component})}}
+                        />
+                    </div>
+                </div>
+            )
+        }
     }
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
@@ -45,7 +64,9 @@ const BurgerConctructor = () => {
 
             <div  className={`${mainStyles.constrCompnent} custom-scroll`}>
                 {dataIngredient ? dataIngredient.map((component, index) =>(
-                    <PlaceComponent component={component} key={index}/>
+                    <React.Fragment key={index}>
+                        {placeComponent(component,  index)}
+                    </React.Fragment> 
                 )) : <h1 className='text text_type_main-default'>Добавьте ингредиенты</h1>}
             </div>   
             

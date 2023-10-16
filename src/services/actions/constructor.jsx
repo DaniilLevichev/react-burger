@@ -1,0 +1,4 @@
+export const PUT_BUN           = 'PUT_BUN';
+export const PUT_INGREDIENT    = 'PUT_INGREDIENT';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const UPDATE_COMPONENT_ORDER = 'UPDATE_COMPONENT_ORDER'
