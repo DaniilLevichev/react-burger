@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerIngredients = () => {
 
@@ -62,19 +63,19 @@ const BurgerIngredients = () => {
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={index} ingredient={ingredient} type='bun'/>
+                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={uuidv4()} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
                 <div ref={refSauce} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient key={index} ingredient={ingredient} type='sauce'/>
+                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={uuidv4()} ingredient={ingredient} type='sauce'/>
                     ))}
                 </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
                 <div ref={refMain} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient key={index} ingredient={ingredient} type='main'/>
+                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={uuidv4()} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
                 {isModalOpen && 

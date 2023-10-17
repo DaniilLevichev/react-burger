@@ -10,6 +10,8 @@ import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/
 import { v4 as uuidv4 } from 'uuid';
 import { PlaceComponent } from './place-component';
 import { CREATE_ORDER } from '../../services/actions/order';
+import BASE_URL from '../../units/base-url';
+import crtOrder from '../../services/actions/index';
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
@@ -41,29 +43,30 @@ const BurgerConctructor = () => {
         newComponents.splice(hoverIndex, 0, dragComponent);
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
-    const crtOrder = () => {
+    const checkReponse = (res) => {
+        return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+    };
+    /*const crtOrder = () => {
         const newArray = dataIngredient.map((ingredient) => ingredient._id);
         newArray.push(dataBun._id);
         const ingredients = {ingredients:newArray}
-        fetch('https://norma.nomoreparties.space/api/orders', {
+        fetch(BASE_URL+'/orders', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(ingredients),
         })
-            .then(response => response.json())
+            .then(checkReponse)
             .then(data => {
                 dispatch({type: CREATE_ORDER, data: data})
             })
-            .catch(error => {
-                console.log('err' + ' ' + error)
-            });
-    }
+            .catch(console.error);
+    }*/
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement key={dataBun._id}
+                {dataBun ? <ConstructorElement key={uuidv4()}
                     type='top'
                     isLocked={true}
                     text={`${dataBun.name} верх`}
@@ -76,14 +79,14 @@ const BurgerConctructor = () => {
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
-                    key={index} 
+                    key={uuidv4()} 
                     index={index}
                     moveComponent={moveComponent}/>
                 )) : <h1 className='text text_type_main-default'>Добавьте ингредиенты</h1>}
             </div>   
             
             <div  className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement key={dataBun._id}
+                {dataBun ? <ConstructorElement key={uuidv4()}
                     type='bottom'
                     isLocked={true}
                     text={`${dataBun.name} низ`}
@@ -94,7 +97,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
                 <CurrencyIcon type="primary" />
-                <Button onClick={() => {setIsModalOpen(true); crtOrder(); {/*dispatch({type: CREATE_ORDER, dataIngredients:dataIngredient, dataBun:dataBun})}*/}}} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>
+                <Button onClick={() => {setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); {/*dispatch({type: CREATE_ORDER, dataIngredients:dataIngredient, dataBun:dataBun})}*/}}} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>

@@ -1,6 +1,6 @@
-import React from 'react';
-import mainStyles from './order-details.module.css'
-import CheckMark from '../../images/ChekMark.jpg'
+import mainStyles from './order-details.module.css';
+import CheckMark from '../../images/ChekMark.jpg';
+import PropTypes from 'prop-types';
 
 const OrderDetails = (props) => {
     return (
@@ -13,5 +13,7 @@ const OrderDetails = (props) => {
         </div>
     )
 }
+
+OrderDetails.propTypes = {orderNumber: PropTypes.number.isRequired};
 
 export default OrderDetails;

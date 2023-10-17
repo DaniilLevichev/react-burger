@@ -1,12 +1,10 @@
-import React from 'react';
-import mainStyles from './ingredient-details.module.css'
+import mainStyles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
-import {BurgerPropTypes} from '../../prop-types/prop-types';
 
 const IngredientDetails = (props) => {
     return (
         <div className={mainStyles.detail}>
-            <img src={props.ingredient.image_large}/>
+            <img src={props.ingredient.image_large} alt={props.ingredient.name}/>
             <p className={`${mainStyles.detailIngredientName} text text_type_main-medium`}>{props.ingredient.name}</p>
             <div className={mainStyles.section}>
                 <div className={mainStyles.sectionCell}>
@@ -30,16 +28,12 @@ const IngredientDetails = (props) => {
     )
 }
 
-/*IngredientDetails.propTypes = {
-    ingredient: PropTypes.shape({
-        image_large:    PropTypes.string.isRequired,
-        calories:       PropTypes.number.isRequired,
-        proteins:       PropTypes.number.isRequired,
-        fat:            PropTypes.number.isRequired,
-        carbohydrates:  PropTypes.number.isRequired
-    })
-}*/
-
-IngredientDetails.propTypes = BurgerPropTypes;
+IngredientDetails.propTypes = {ingredient: PropTypes.shape({
+    name:           PropTypes.string.isRequired,
+    proteins:       PropTypes.number.isRequired,
+    fat:            PropTypes.number.isRequired,
+    carbohydrates:  PropTypes.number.isRequired,
+    calories:       PropTypes.number.isRequired,
+})};
 
 export default IngredientDetails;

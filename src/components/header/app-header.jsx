@@ -1,12 +1,12 @@
 import React from 'react';
-import { Logo, BurgerIcon , Typography, Box, ListIcon, ProfileIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Logo, BurgerIcon, ListIcon, ProfileIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import mainStyles from './app-header.module.css'
 
 
 export default function AppHeader () {
-
-        return (
+    return (
+        <header>
             <nav className={mainStyles.background}>
                 <section className={mainStyles.section}>
                     <div className={mainStyles.extremeDiv} >
@@ -30,5 +30,6 @@ export default function AppHeader () {
                     </div>
                 </section>
             </nav>
-      );
-    };
+        </header>
+    );
+};
