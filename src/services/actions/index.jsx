@@ -1,11 +1,9 @@
 import { CREATE_ORDER } from './order';
+import { GET_INGREDIENTS_SUCCESS } from './ingredients';
 import BASE_URL from '../../units/base-url';
+import checkReponse from '../../units/check-response';
 
-const checkReponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
-const crtOrder = (dataBun, dataIngredient) => {
+export const crtOrder = (dataBun, dataIngredient) => {
     return (dispatch) => {
         const newArray = dataIngredient.map((ingredient) => ingredient._id);
         newArray.push(dataBun._id);
@@ -27,4 +25,11 @@ const crtOrder = (dataBun, dataIngredient) => {
     }
 };
 
-export default crtOrder;
+export const getData = () => {
+    return (dispatch) => {
+        fetch(BASE_URL+'/ingredients')
+        .then(checkReponse)
+        .then(data => dispatch({type: GET_INGREDIENTS_SUCCESS, data: data.data}))
+        .catch(console.error);
+    }
+}

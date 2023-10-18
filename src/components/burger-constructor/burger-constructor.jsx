@@ -9,9 +9,7 @@ import { useDrop } from "react-dnd";
 import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/actions/constructor';   
 import { v4 as uuidv4 } from 'uuid';
 import { PlaceComponent } from './place-component';
-import { CREATE_ORDER } from '../../services/actions/order';
-import BASE_URL from '../../units/base-url';
-import crtOrder from '../../services/actions/index';
+import { crtOrder } from '../../services/actions/index';
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
@@ -46,27 +44,11 @@ const BurgerConctructor = () => {
     const checkReponse = (res) => {
         return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
     };
-    /*const crtOrder = () => {
-        const newArray = dataIngredient.map((ingredient) => ingredient._id);
-        newArray.push(dataBun._id);
-        const ingredients = {ingredients:newArray}
-        fetch(BASE_URL+'/orders', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ingredients),
-        })
-            .then(checkReponse)
-            .then(data => {
-                dispatch({type: CREATE_ORDER, data: data})
-            })
-            .catch(console.error);
-    }*/
+    
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement key={uuidv4()}
+                {dataBun ? <ConstructorElement
                     type='top'
                     isLocked={true}
                     text={`${dataBun.name} верх`}
@@ -79,25 +61,24 @@ const BurgerConctructor = () => {
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
-                    key={uuidv4()} 
+                    key={component.id} 
                     index={index}
                     moveComponent={moveComponent}/>
                 )) : <h1 className='text text_type_main-default'>Добавьте ингредиенты</h1>}
             </div>   
             
             <div  className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement key={uuidv4()}
+                {dataBun ? <ConstructorElement
                     type='bottom'
                     isLocked={true}
                     text={`${dataBun.name} низ`}
                     price={dataBun.price}
                     thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
-                    
             </div>
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
-                <CurrencyIcon type="primary" />
-                <Button onClick={() => {setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); {/*dispatch({type: CREATE_ORDER, dataIngredients:dataIngredient, dataBun:dataBun})}*/}}} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>
+                {dataPrice && <CurrencyIcon type="primary" />}
+                {dataPrice && <Button onClick={() => {setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>
