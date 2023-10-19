@@ -1,6 +1,6 @@
 import mainStyles from './ingredient-details.module.css';
 import PropTypes from 'prop-types';
-import { BurgerPropTypes } from '../../prop-types/prop-types';
+import { IngredientType, IngredientDetailType } from '../../units/ingredient-types';
 
 const IngredientDetails = (props) => {
     return (
@@ -29,6 +29,9 @@ const IngredientDetails = (props) => {
     )
 }
 
-IngredientDetails.propTypes = BurgerPropTypes;
+
+IngredientDetails.propTypes = {
+    ingredient: PropTypes.shape(IngredientDetailType)
+};
 
 export default IngredientDetails;

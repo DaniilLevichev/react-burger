@@ -1,6 +1,6 @@
 import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
-import { BurgerPropTypes } from '../../prop-types/prop-types';
+import { BurgerPropTypes} from '../../units/ingredients-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BurgerPropTypes} from '../../prop-types/prop-types';
+import { BurgerPropTypes} from '../../units/ingredients-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
