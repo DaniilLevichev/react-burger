@@ -3,9 +3,11 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon  } from '@ya.praktikum/react-de
 
 import mainStyles from './app-header.module.css'
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function AppHeader () {
+    const dataUser = useSelector(state => state.user.userData.name);
     return (
         <header>
             <nav className={mainStyles.background}>
@@ -26,7 +28,7 @@ export default function AppHeader () {
                     <div className={mainStyles.extremeDiv}>
                         <NavLink to='/profile' className={mainStyles.account}>
                             <ProfileIcon type='primary'/>
-                            <p className={`${mainStyles.text} text text_type_main-default`}>Личный кабинет</p>
+                            <p className={`${mainStyles.text} text text_type_main-default`}>{dataUser ? dataUser : 'Личный кабинет'}</p>
                         </NavLink>
                     </div>
                 </section>

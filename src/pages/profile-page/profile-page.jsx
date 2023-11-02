@@ -1,8 +1,24 @@
-
+import React from 'react';
 import { PasswordInput, EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './profile-page.module.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import getCookie from '../../units/get-cookie';
+import { logoutUser } from '../../services/actions/identification';
+import { useDispatch } from 'react-redux';
 
 export const ProfilePage = () => {
+    const dataUser = useSelector(state => state.user.userData.name);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const outUser = () => {
+        const accessToken = getCookie('accessToken');
+        const refreshToken  = getCookie('refreshToken');
+        dispatch(logoutUser(accessToken, refreshToken));
+        navigate('/');
+    }
+
     return (
         <div className={mainStyles.mainDiv}>
             <div className={mainStyles.leftDiv}>
@@ -13,7 +29,7 @@ export const ProfilePage = () => {
                     <a className="text text_type_main-large text_color_inactive">История заказов</a>
                 </div>
                 <div className={mainStyles.navPanel}>
-                    <a className="text text_type_main-large text_color_inactive">Выход</a>
+                    <a onClick={()=>{outUser()}}className="text text_type_main-large text_color_inactive">Выход</a>
                 </div>
             </div>
             <div className={mainStyles.rightDiv}>

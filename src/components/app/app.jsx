@@ -13,6 +13,7 @@ import { RegisterPage } from '../../pages/register-page/register-page';
 import { FixPasswordPage } from '../../pages/fix-password-page/fix-password-page';
 import { ResetPasswordPage } from '../../pages/reset-password-page/reset-password-page';
 import { ProfilePage } from '../../pages/profile-page/profile-page';
+import { ProtectedRouteUnAuthorized, ProtectedRouteAuthorized } from '../protected-route';
 
 
 function App() {
@@ -36,11 +37,11 @@ function App() {
             </DndProvider>
           </div>
         }/>
-        <Route path='/login' element={<AutorizationPage/> }/>
-        <Route path='/register' element={<RegisterPage/> }/>
-        <Route path='/forgot-password' element={<FixPasswordPage/> }/>
-        <Route path='/reset-password' element={<ResetPasswordPage/> }/>
-        <Route path='/profile' element={<ProfilePage/> }/>
+        <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
+        <Route path='/register'        element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
+        <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
+        <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
+        <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
       </Routes>
     </Router>
     </div>

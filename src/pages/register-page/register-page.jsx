@@ -1,11 +1,10 @@
 import React from 'react';
 import { PasswordInput, EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './register-page.module.css';
-import BASE_URL from '../../units/base-url';
-import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
-import { createUser } from '../../services/actions/registry';
-import { useDispatch, useSelector } from 'react-redux';
+import { createUser } from '../../services/actions/identification';
+import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -27,28 +26,6 @@ export const RegisterPage = () => {
             setPassword(e.target.value)
         }
     }
-/*
-    const buttonClick = (email, password, name) => {
-        fetch(BASE_URL+'/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "email": email,
-                "password": password,
-                "name": name}),
-        })
-            .then(checkReponse)
-            .then(data => {
-                if (data.success) {
-                    navigate('/login');
-                } 
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }*/
 
     const buttonClick = ( email, password, name) => {
         const data = {
@@ -97,7 +74,7 @@ export const RegisterPage = () => {
             </div>
             <div className={mainStyles.linkText}>
                 <p className="text text_type_main-default text_color_inactive">Уже зарегистрированы?</p>
-                <a href='login' className={mainStyles.link}>Войти</a>
+                <NavLink to='/login' className={mainStyles.link}>Войти</NavLink>
             </div>
         </div>
     )

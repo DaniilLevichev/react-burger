@@ -13,20 +13,18 @@ import { crtOrder } from '../../services/actions/index';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import { checkUser } from '../../services/actions/identification';
+import { useNavigate } from 'react-router';
+import getCookie from '../../units/get-cookie';
 
-function getCookie(name) {
-    const matches = document.cookie.match(
-      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
-    );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-  } 
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
     const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
     const dataPrice      = useSelector(state => state.constructorReducer.price);
     const dataOrder      = useSelector(state => state.order.request);
+    const dataUser       = useSelector(state => state.user.userData.name);
     const dispatch       = useDispatch();
+    const navigate       = useNavigate();
 
     const [{handlerId}, dropTarget] = useDrop({
         accept: "dragIngredient",
@@ -56,9 +54,10 @@ const BurgerConctructor = () => {
     };
     React.useEffect(()=>{
         const accessToken = getCookie('accessToken');
-        //const refreshToken = document.cookie.split('; ').find(row => row.startsWith('refreshToken='))?.split('=')[1];
         const refreshToken  = getCookie('refreshToken');
-        dispatch(checkUser(accessToken, refreshToken));
+        if (accessToken && refreshToken) {
+            dispatch(checkUser(accessToken, refreshToken));
+        }
     }, [])
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
@@ -93,7 +92,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
                 {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>

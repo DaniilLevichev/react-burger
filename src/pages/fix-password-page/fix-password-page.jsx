@@ -4,39 +4,25 @@ import mainStyles from './fix-password-page.module.css';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
+import { fixPassword } from '../../services/actions/identification';
+import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export const FixPasswordPage = () => {
 
     const [email, setEmail]    = React.useState();
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onChange = (e) => {
         setEmail(e.target.value);
     }
 
     const buttonClick = () => {
-        console.log(email);
         if(email) {
-            fetch(BASE_URL+'/password-reset', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "email": email
-                })
-            })
-                .then(checkReponse)
-                .then(data => {
-                    if (data.success) {
-                        console.log(data);
-                        navigate('/reset-password');
-                    } 
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            dispatch(fixPassword(email));
+            navigate('/reset-password');
         }
     }
 
@@ -58,7 +44,7 @@ export const FixPasswordPage = () => {
             </div>
             <div className={mainStyles.linkText}>
                 <p className="text text_type_main-default text_color_inactive">Вспомнили пароль?</p>
-                <a href='login' className={mainStyles.link}>Войти</a>
+                <NavLink to='/login' className={mainStyles.link}>Войти</NavLink>
             </div>
         </div>
     )

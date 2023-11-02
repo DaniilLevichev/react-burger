@@ -1,38 +1,15 @@
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
+import deleteCookie from '../../units/delete-cookie';
+import setCookie from '../../units/set-cookie';
 
 export const CHECK_USER = 'CHECK_USER';
-
-function setCookie(name, value, props = {}) {
-    props = {
-      path: "/",
-      ...props,
-    };
-  
-    let exp = props.expires;
-    if (typeof exp == "number" && exp) {
-      const d = new Date();
-      d.setTime(d.getTime() + exp * 1000);
-      exp = props.expires = d;
-    }
-    if (exp && exp.toUTCString) {
-      props.expires = exp.toUTCString();
-    }
-    value = encodeURIComponent(value);
-    let updatedCookie = name + "=" + value;
-    for (const propName in props) {
-      updatedCookie += "; " + propName;
-      const propValue = props[propName];
-      if (propValue !== true) {
-        updatedCookie += "=" + propValue;
-      }
-    }
-    document.cookie = updatedCookie;
-  }
+export const REGISTRY_USER = 'REGISTRY_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const LOGIN_USER = 'LOGIN_USER';
+export const FIX_PASSWORD = 'FIX_PASSWORD';
 
 export const checkUser = (accessToken, refreshToken) => {
-    console.log(accessToken);
-    console.log(refreshToken);
     return (dispatch) => {
         fetch(BASE_URL+'/auth/user', {
             method: 'GET',
@@ -70,3 +47,96 @@ export const checkUser = (accessToken, refreshToken) => {
             });
     }
 };
+
+
+export const createUser = (dataUser) => {
+    return (dispatch) => {
+        fetch(BASE_URL+'/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataUser),
+        })
+            .then(checkReponse)
+            .then(data => {
+                dispatch({type:REGISTRY_USER, data:data.user});
+                setCookie('accessToken', data.accessToken);
+                setCookie('refreshToken', data.refreshToken);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+};
+
+export const logoutUser = (accessToken, refreshToken) => {
+    return(dispatch) => {
+        fetch(BASE_URL + '/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"token": refreshToken}),
+        })
+            .then(checkReponse)
+            .then(data => {
+                dispatch({type: LOGOUT_USER});
+                deleteCookie('accessToken');
+                deleteCookie('refreshToken');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
+export const authorizationUser = (login, password) => {
+    return(dispatch) => {
+        fetch(BASE_URL + '/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "email": login,
+                "password": password
+            })
+        })
+            .then(checkReponse)
+            .then(data => {
+                console.log(data);
+                dispatch({type:LOGIN_USER, data:data.user});
+                setCookie('accessToken', data.accessToken);
+                setCookie('refreshToken', data.refreshToken);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
+export const fixPassword = (email) => {
+    console.log(email);
+    return(dispatch) => {
+        fetch(BASE_URL+'/password-reset', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "email": email
+            })
+        })
+            .then(checkReponse)
+            .then(data => {
+                console.log(111111111111111111);
+                if (data.success) {
+                    dispatch({type:FIX_PASSWORD});
+                } 
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
