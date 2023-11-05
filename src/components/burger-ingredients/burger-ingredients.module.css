@@ -1,0 +1,71 @@
+.showPadding {
+    position: relative;
+    padding: 24px 0;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.priceText {
+    margin-right: 5px;
+}
+
+.ingredientPad {
+    padding: 4px 0;
+}
+
+.mainDiv {
+    position: absolute;
+    right: 52%;
+}
+
+.headers {
+    display: flex;
+    align-items: left;
+    padding:40px 0;
+}
+
+.tabs {
+    padding:20px 0;
+    display: flex;
+}
+
+.ingredientsDiv {
+    overflow: auto;
+     height: 1000px;
+}
+
+.ingredients {
+    display: grid; 
+    grid-template-columns: 300px 300px; 
+    justify-content: start;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px 0;
+  }
+  
+.sectionCell {
+    width: 130px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detailIngredientName {
+    padding: 16px 0;
+}
