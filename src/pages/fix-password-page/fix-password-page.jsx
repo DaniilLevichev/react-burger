@@ -37,6 +37,7 @@ export const FixPasswordPage = () => {
                     placeholder={'Укажите e-mail'}
                     isIcon={false}
                     onChange = {e => onChange(e)}
+                    value={email}
                 />
             </div>
             <div className={mainStyles.button}>

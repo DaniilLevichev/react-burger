@@ -1,4 +1,4 @@
-import { CHECK_USER, REGISTRY_USER, LOGOUT_USER, LOGIN_USER, FIX_PASSWORD } from "../actions/identification";
+import { CHECK_USER, REGISTRY_USER, LOGOUT_USER, LOGIN_USER, FIX_PASSWORD, RESET_PASSWORD, EDIT_USER } from "../actions/identification";
 
 const initialState = {
     userData: {},
@@ -10,6 +10,9 @@ export const userReducer = (state = initialState, action) => {
         case CHECK_USER: {
             return {...state, userData: action.data}
         }
+        case EDIT_USER: {
+            return {...state, userData: action.data}
+        }
         case REGISTRY_USER: {
             return {...state, userData: action.data}
         }
@@ -19,8 +22,11 @@ export const userReducer = (state = initialState, action) => {
         case LOGOUT_USER: {
             return {...state, userData: {}}
         }
-        case FIX_PASSWORD : {
-            return {...state, isForgotPassword: true }
+        case FIX_PASSWORD: {
+            return {...state, isForgotPassword: true}
+        }
+        case RESET_PASSWORD: {
+            return {...state, isForgotPassword: false}
         }
         default: {
             return state

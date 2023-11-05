@@ -4,13 +4,22 @@ import mainStyles from './reset-password-page.module.css';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPassword } from '../../services/actions/identification';
 
 export const ResetPasswordPage = () => {
+
+    const dataUser = useSelector(state => state.user.isForgotPassword);
+    const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState();
     const [token,    setToken]    = React.useState();
 
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        !dataUser && navigate('/');
+    }, [])
 
     const onChange = (e) => {
         if (e.target.name === 'password'){
@@ -22,26 +31,8 @@ export const ResetPasswordPage = () => {
 
     const buttonClick = () => {
         if(password && token ) {
-            fetch(BASE_URL+'/password-reset', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "password": password,
-                    "token": token
-                })
-            })
-                .then(checkReponse)
-                .then(data => {
-                    if (data.success) {
-                        console.log(data);
-                        navigate('/login');
-                    } 
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            dispatch(resetPassword(password, token));
+            navigate('/login');
         }
     }
 
@@ -56,6 +47,7 @@ export const ResetPasswordPage = () => {
                     placeholder={'Введите новый пароль'}
                     extraClass="mb-2"
                     onChange = {e => onChange(e)}
+                    value={password}
                 />
             </div>
             <div className={mainStyles.input}>
@@ -67,6 +59,7 @@ export const ResetPasswordPage = () => {
                     errorText={'Ошибка'}
                     size={'default'}
                     onChange = {e => onChange(e)}
+                    value={token}
                 />
             </div>
             <div className={mainStyles.button}>

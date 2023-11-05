@@ -14,7 +14,11 @@ import { FixPasswordPage } from '../../pages/fix-password-page/fix-password-page
 import { ResetPasswordPage } from '../../pages/reset-password-page/reset-password-page';
 import { ProfilePage } from '../../pages/profile-page/profile-page';
 import { ProtectedRouteUnAuthorized, ProtectedRouteAuthorized } from '../protected-route';
-
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import getCookie from '../../units/get-cookie';
+import { checkUser } from '../../services/actions/identification';
+import Modal from '../modal/modal';
+import { useLocation } from 'react-router-dom';
 
 function App() {
 
@@ -22,6 +26,11 @@ function App() {
 
   useEffect(()=>{
     dispatch(getData());
+    const accessToken = getCookie('accessToken');
+    const refreshToken  = getCookie('refreshToken');
+    if (accessToken && refreshToken) {
+        dispatch(checkUser(accessToken, refreshToken));
+    }
   });
 
   return (
@@ -36,16 +45,37 @@ function App() {
               <BurgerConctructor/>
             </DndProvider>
           </div>
-        }/>
+          }>
+        </Route>        
         <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
         <Route path='/register'        element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
         <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
         <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
         <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
       </Routes>
+      <ModalRoute/>
     </Router>
     </div>
   );
+}
+
+function ModalRoute() {
+  const state = useLocation();
+  return(
+    <div>
+      <Routes>
+        {state.state ? <Route path='/ingredients/:id' element={
+          <div className={mainStyles.app}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients/>
+              <BurgerConctructor/>
+            </DndProvider>
+            <Modal header='Детали ингридиента'><IngredientDetails/></Modal>
+          </div>}/> :
+          <Route path='/ingredients/:id' element={<IngredientDetails/>}/>}
+      </Routes>
+    </div>
+  )
 }
 
 export default App;

@@ -10,9 +10,6 @@ import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/
 import { v4 as uuidv4 } from 'uuid';
 import { PlaceComponent } from './place-component';
 import { crtOrder } from '../../services/actions/index';
-import BASE_URL from '../../units/base-url';
-import checkReponse from '../../units/check-response';
-import { checkUser } from '../../services/actions/identification';
 import { useNavigate } from 'react-router';
 import getCookie from '../../units/get-cookie';
 
@@ -52,13 +49,7 @@ const BurgerConctructor = () => {
         newComponents.splice(hoverIndex, 0, dragComponent);
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
-    React.useEffect(()=>{
-        const accessToken = getCookie('accessToken');
-        const refreshToken  = getCookie('refreshToken');
-        if (accessToken && refreshToken) {
-            dispatch(checkUser(accessToken, refreshToken));
-        }
-    }, [])
+
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>

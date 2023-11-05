@@ -8,6 +8,8 @@ export const REGISTRY_USER = 'REGISTRY_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const FIX_PASSWORD = 'FIX_PASSWORD';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const EDIT_USER = 'EDIT_USER';
 
 export const checkUser = (accessToken, refreshToken) => {
     return (dispatch) => {
@@ -48,6 +50,27 @@ export const checkUser = (accessToken, refreshToken) => {
     }
 };
 
+export const editUser = (accessToken, userData) => {
+    return (dispatch) => {
+        fetch(BASE_URL+'/auth/user', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'authorization' : accessToken
+            },
+            body: JSON.stringify(userData)
+        })
+            .then(checkReponse)
+            .then(data => {
+                if(data.success){
+                    dispatch({type:EDIT_USER, data:data.user});
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+};
 
 export const createUser = (dataUser) => {
     return (dispatch) => {
@@ -105,7 +128,6 @@ export const authorizationUser = (login, password) => {
         })
             .then(checkReponse)
             .then(data => {
-                console.log(data);
                 dispatch({type:LOGIN_USER, data:data.user});
                 setCookie('accessToken', data.accessToken);
                 setCookie('refreshToken', data.refreshToken);
@@ -117,7 +139,6 @@ export const authorizationUser = (login, password) => {
 }
 
 export const fixPassword = (email) => {
-    console.log(email);
     return(dispatch) => {
         fetch(BASE_URL+'/password-reset', {
             method: 'POST',
@@ -130,9 +151,32 @@ export const fixPassword = (email) => {
         })
             .then(checkReponse)
             .then(data => {
-                console.log(111111111111111111);
                 if (data.success) {
                     dispatch({type:FIX_PASSWORD});
+                } 
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
+export const resetPassword = (password, token) => {
+    return(dispatch) => {
+        fetch(BASE_URL+'/password-reset', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "password": password,
+                "token": token
+            })
+        })
+            .then(checkReponse)
+            .then(data => {
+                if (data.success) {
+                    dispatch({type: RESET_PASSWORD});
                 } 
             })
             .catch(error => {

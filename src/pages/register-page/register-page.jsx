@@ -52,6 +52,7 @@ export const RegisterPage = () => {
                     errorText={'Ошибка'}
                     size={'default'}
                     onChange = {e => onChange(e)}
+                    value={name}
                     
                 />
             </div>
@@ -60,6 +61,7 @@ export const RegisterPage = () => {
                     name={'email'}
                     isIcon={false}
                     onChange = {e => onChange(e)}
+                    value={login}
                 />
             </div>
             <div className={mainStyles.input}>
@@ -67,6 +69,7 @@ export const RegisterPage = () => {
                     name={'password'}
                     extraClass="mb-2"
                     onChange = {e => onChange(e)}
+                    value={password}
                 />
             </div>
             <div className={mainStyles.button}>

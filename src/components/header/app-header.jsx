@@ -3,7 +3,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon  } from '@ya.praktikum/react-de
 
 import mainStyles from './app-header.module.css'
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 export default function AppHeader () {
@@ -17,7 +17,7 @@ export default function AppHeader () {
                             <BurgerIcon type='primary'/>
                             <p className={`${mainStyles.text} text text_type_main-default`}>Конструктор</p>
                         </NavLink>
-                        <NavLink to='/login' className={mainStyles.links}>
+                        <NavLink className={mainStyles.links}>
                             <ListIcon type='primary'/>
                             <p className={`${mainStyles.text} text text_type_main-default`}>Лента заказов</p>
                         </NavLink>
