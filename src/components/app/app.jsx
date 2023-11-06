@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import mainStyles from './app.module.css';
 import AppHeader from '../header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConctructor from '../burger-constructor/burger-constructor';
+import MainPage from '../../pages/main-page';
 import { useDispatch } from 'react-redux';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { getData } from '../../services/actions/index';
 import { AutorizationPage } from '../../pages/authorization-page/authorization-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
@@ -18,10 +15,11 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import getCookie from '../../units/get-cookie';
 import { checkUser } from '../../services/actions/identification';
 import Modal from '../modal/modal';
-import { useLocation } from 'react-router-dom';
 
 function App() {
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -33,49 +31,25 @@ function App() {
     }
   });
 
+  const handleClose = () => {
+    navigate(-1);
+  }
+  
   return (
     <div>
-    <Router>
-    <AppHeader className={mainStyles.appHeader}/>
-      <Routes>
-        <Route path='/' element={
-          <div className={mainStyles.app}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients/>
-              <BurgerConctructor/>
-            </DndProvider>
-          </div>
-          }>
-        </Route>        
+      <AppHeader className={mainStyles.appHeader}/>
+      <Routes location={background || location}>
+        <Route path='/'                element={<MainPage/>}/>
         <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
         <Route path='/register'        element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
         <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
         <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
         <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
+        <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
       </Routes>
-      <ModalRoute/>
-    </Router>
+      {background && <Routes><Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/></Routes>}
     </div>
   );
-}
-
-function ModalRoute() {
-  const state = useLocation();
-  return(
-    <div>
-      <Routes>
-        {state.state ? <Route path='/ingredients/:id' element={
-          <div className={mainStyles.app}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients/>
-              <BurgerConctructor/>
-            </DndProvider>
-            <Modal header='Детали ингридиента'><IngredientDetails/></Modal>
-          </div>}/> :
-          <Route path='/ingredients/:id' element={<IngredientDetails/>}/>}
-      </Routes>
-    </div>
-  )
 }
 
 export default App;

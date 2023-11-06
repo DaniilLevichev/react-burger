@@ -12,8 +12,8 @@ export const ResetPasswordPage = () => {
     const dataUser = useSelector(state => state.user.isForgotPassword);
     const dispatch = useDispatch();
 
-    const [password, setPassword] = React.useState();
-    const [token,    setToken]    = React.useState();
+    const [password, setPassword] = React.useState('');
+    const [token,    setToken]    = React.useState('');
 
     const navigate = useNavigate();
 
@@ -29,7 +29,8 @@ export const ResetPasswordPage = () => {
         }
     }
 
-    const buttonClick = () => {
+    const confirm = (e) => {
+        e.preventDefault();
         if(password && token ) {
             dispatch(resetPassword(password, token));
             navigate('/login');
@@ -41,30 +42,32 @@ export const ResetPasswordPage = () => {
             <div className={mainStyles.header}>
                 <p className='text text_type_main-medium'>Восстановление пароля</p>
             </div>
-            <div className={mainStyles.input}>
-                <PasswordInput
-                    name={'password'}
-                    placeholder={'Введите новый пароль'}
-                    extraClass="mb-2"
-                    onChange = {e => onChange(e)}
-                    value={password}
-                />
-            </div>
-            <div className={mainStyles.input}>
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    name={'name'}
-                    error={false}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                    onChange = {e => onChange(e)}
-                    value={token}
-                />
-            </div>
-            <div className={mainStyles.button}>
-                <Button htmlType="button" type="primary" size="medium" onClick={buttonClick}>Восстановить</Button> 
-            </div>
+            <form onSubmit={confirm}>
+                <div className={mainStyles.input}>
+                    <PasswordInput
+                        name={'password'}
+                        placeholder={'Введите новый пароль'}
+                        extraClass="mb-2"
+                        onChange = {e => onChange(e)}
+                        value={password}
+                    />
+                </div>
+                <div className={mainStyles.input}>
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        name={'name'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                        onChange = {e => onChange(e)}
+                        value={token}
+                    />
+                </div>
+                <div className={mainStyles.button}>
+                    <Button htmlType="submit" type="primary" size="medium">Восстановить</Button> 
+                </div>
+            </form>
             <div className={mainStyles.linkText}>
                 <p className="text text_type_main-default text_color_inactive">Вспомнили пароль?</p>
                 <a href='login' className={mainStyles.link}>Войти</a>

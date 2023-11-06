@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 export const FixPasswordPage = () => {
 
-    const [email, setEmail]    = React.useState();
+    const [email, setEmail]    = React.useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -19,7 +19,8 @@ export const FixPasswordPage = () => {
         setEmail(e.target.value);
     }
 
-    const buttonClick = () => {
+    const confirm = (e) => {
+        e.preventDefault();
         if(email) {
             dispatch(fixPassword(email));
             navigate('/reset-password');
@@ -31,18 +32,20 @@ export const FixPasswordPage = () => {
             <div className={mainStyles.header}>
                 <p className='text text_type_main-medium'>Восстановление пароля</p>
             </div>
-            <div className={mainStyles.input}>
-                <EmailInput
-                    name={'email'}
-                    placeholder={'Укажите e-mail'}
-                    isIcon={false}
-                    onChange = {e => onChange(e)}
-                    value={email}
-                />
-            </div>
-            <div className={mainStyles.button}>
-                <Button htmlType="button" type="primary" size="medium" onClick={buttonClick}>Восстановить</Button> 
-            </div>
+            <form onSubmit={confirm}>
+                <div className={mainStyles.input}>
+                    <EmailInput
+                        name={'email'}
+                        placeholder={'Укажите e-mail'}
+                        isIcon={false}
+                        onChange = {e => onChange(e)}
+                        value={email}
+                    />
+                </div>
+                <div className={mainStyles.button}>
+                    <Button htmlType="submit" type="primary" size="medium">Восстановить</Button> 
+                </div>
+            </form>
             <div className={mainStyles.linkText}>
                 <p className="text text_type_main-default text_color_inactive">Вспомнили пароль?</p>
                 <NavLink to='/login' className={mainStyles.link}>Войти</NavLink>

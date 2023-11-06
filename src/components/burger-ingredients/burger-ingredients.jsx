@@ -9,7 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const BurgerIngredients = () => {
 
@@ -18,6 +18,7 @@ const BurgerIngredients = () => {
     const [ingrState,   setIngredient]    = React.useState({});
 
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const setIsModalClose = () => {
         setIsModalOpen(false);
@@ -46,9 +47,9 @@ const BurgerIngredients = () => {
     }, [inViewBun, inViewSauce, inViewMain])
     
     const openModal = (ingredient) => {
-        navigate(`/ingredients/${ingredient}`, {state:{isModal:true}})
+        navigate(`/ingredients/${ingredient}`, {state: { background: location }})
     }
-
+    
     return (
         <div ref={dragRef}  className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.headers} text text_type_main-large`}>Соберите бургер </h1>  

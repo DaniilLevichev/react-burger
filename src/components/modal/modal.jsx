@@ -13,7 +13,7 @@ const Modal = (props) => {
   React.useEffect(() => {
     const clickEsc = (event) => {
       if (event.key === 'Escape') {
-        {props.onClicked ? props.onClicked() : navigate('/');}
+        props.onClicked()
       }
     };
 
@@ -26,11 +26,11 @@ const Modal = (props) => {
 
     return ReactDOM.createPortal(
       <>
-        <ModalOverlay onClick={()=>{props.onClicked ? props.onClicked() : navigate('/');}}/>
+        <ModalOverlay onClick={()=>{props.onClicked()}}/>
         <div className={mainStyles.square}>
           <div className={mainStyles.header} >
             <h1>{props.header}</h1>
-            <CloseIcon onClick={()=>{props.onClicked ? props.onClicked() : navigate('/');}}/>
+            <CloseIcon onClick={()=>{props.onClicked()}}/>
           </div>
           {props.children}
         </div>

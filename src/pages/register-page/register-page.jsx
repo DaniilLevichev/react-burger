@@ -10,9 +10,9 @@ import { NavLink } from 'react-router-dom';
 
 export const RegisterPage = () => {
 
-    const [name,        setName]        = React.useState();
-    const [login,       setLogin]       = React.useState();
-    const [password,    setPassword]    = React.useState();
+    const [name,        setName]        = React.useState('');
+    const [login,       setLogin]       = React.useState('');
+    const [password,    setPassword]    = React.useState('');
     const dispatch       = useDispatch();
 
     const navigate = useNavigate();
@@ -27,9 +27,10 @@ export const RegisterPage = () => {
         }
     }
 
-    const buttonClick = ( email, password, name) => {
+    const confirm = (e) => {
+        e.preventDefault();
         const data = {
-            "email": email,
+            "email": login,
             "password": password,
             "name": name
         };
@@ -43,38 +44,40 @@ export const RegisterPage = () => {
             <div className={mainStyles.header}>
                 <p className='text text_type_main-medium'>Регистрация</p>
             </div>
-            <div className={mainStyles.input}>
-                <Input
-                    type={'text'}
-                    placeholder={'Имя'}
-                    name={'name'}
-                    error={false}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                    onChange = {e => onChange(e)}
-                    value={name}
-                    
-                />
-            </div>
-            <div className={mainStyles.input}>
-                <EmailInput
-                    name={'email'}
-                    isIcon={false}
-                    onChange = {e => onChange(e)}
-                    value={login}
-                />
-            </div>
-            <div className={mainStyles.input}>
-                <PasswordInput
-                    name={'password'}
-                    extraClass="mb-2"
-                    onChange = {e => onChange(e)}
-                    value={password}
-                />
-            </div>
-            <div className={mainStyles.button}>
-                <Button htmlType="button" type="primary" size="medium" onClick={() => buttonClick(login, password, name)}>Зарегестрироваться</Button> 
-            </div>
+            <form onSubmit={confirm} className={mainStyles.rightDiv}>
+                <div className={mainStyles.input}>
+                    <Input
+                        type={'text'}
+                        placeholder={'Имя'}
+                        name={'name'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                        onChange = {e => onChange(e)}
+                        value={name}
+                        
+                    />
+                </div>
+                <div className={mainStyles.input}>
+                    <EmailInput
+                        name={'email'}
+                        isIcon={false}
+                        onChange = {e => onChange(e)}
+                        value={login}
+                    />
+                </div>
+                <div className={mainStyles.input}>
+                    <PasswordInput
+                        name={'password'}
+                        extraClass="mb-2"
+                        onChange = {e => onChange(e)}
+                        value={password}
+                    />
+                </div>
+                <div className={mainStyles.button}>
+                    <Button htmlType="submit" type="primary" size="medium">Зарегестрироваться</Button> 
+                </div>
+            </form>
             <div className={mainStyles.linkText}>
                 <p className="text text_type_main-default text_color_inactive">Уже зарегистрированы?</p>
                 <NavLink to='/login' className={mainStyles.link}>Войти</NavLink>

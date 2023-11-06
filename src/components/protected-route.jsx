@@ -1,19 +1,18 @@
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ProtectedRouteUnAuthorized = ({ element }) => {
     
+    const location = useLocation();
     const dataUser = useSelector(state => state.user.userData.name);
 
-    
-    return dataUser ? element : <Navigate to="/login" replace/>;
+    return dataUser ? element : <Navigate to="/login"  state={{ from: location}}/>;
     
 } 
 
 export const ProtectedRouteAuthorized = ({ element }) => {
     
     const dataUser = useSelector(state => state.user.userData.name);
-
     
     return !dataUser ? element : <Navigate to="/" replace/>;
     

@@ -15,7 +15,7 @@ export const ProfilePage = () => {
     const userEmail = useSelector(state => state.user.userData.email);
     const [name,        setName]        = useState(userName);
     const [login,       setLogin]       = useState(userEmail);
-    const [password,    setPassword]    = useState();
+    const [password,    setPassword]    = useState('');
     const [isChanged,     setChanged]     = useState(false);
     const [nameIcon, setNameIcon] = useState('EditIcon');
     const [loginIcon, setLoginIcon] = useState('EditIcon');
@@ -51,7 +51,8 @@ export const ProfilePage = () => {
         setNameIcon('EditIcon');
     }
 
-    const confirm = () => {
+    const confirm = (e) => {
+        e.preventDefault();
         const userData = {
             "name": name,
             "login": login,
@@ -75,7 +76,7 @@ export const ProfilePage = () => {
                     <a onClick={()=>{outUser()}}className="text text_type_main-large text_color_inactive">Выход</a>
                 </div>
             </div>
-            <div className={mainStyles.rightDiv}>
+            <form  onSubmit={confirm} className={mainStyles.rightDiv}>
                 <div className={mainStyles.input}>
                     <Input
                         type={'text'}
@@ -109,9 +110,9 @@ export const ProfilePage = () => {
                 </div>
                 {isChanged && <div className={mainStyles.buttons}>
                     <Button htmlType="button" type="secondary" size="medium" onClick={()=>{cancel()}}>Отменить</Button>
-                    <Button htmlType="button" type="primary" size="medium" onClick={()=>{confirm()}}>Применить</Button>
+                    <Button htmlType="submit" type="primary" size="medium">Применить</Button>
                 </div>}
-            </div>
+            </form>
         </div> :
         null
     )
