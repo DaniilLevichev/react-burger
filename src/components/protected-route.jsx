@@ -11,9 +11,11 @@ export const ProtectedRouteUnAuthorized = ({ element }) => {
 } 
 
 export const ProtectedRouteAuthorized = ({ element }) => {
+    const location = useLocation();
+    const from = location.state?.from || '/';
     
     const dataUser = useSelector(state => state.user.userData.name);
     
-    return !dataUser ? element : <Navigate to="/" replace/>;
+    return !dataUser ? element : <Navigate to={from} replace/>;
     
 } 

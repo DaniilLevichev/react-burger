@@ -24,8 +24,9 @@ export const AutorizationPage = () => {
     }
     const confirm = (e) => {
         e.preventDefault();
+        const from = location.state?.from || '/';
         dispatch(authorizationUser(login, password)); 
-        navigate(location.state.from.pathname ? location.state.from.pathname : '/');
+        navigate(from);
     }
     return (
         <div className={mainStyles.mainDiv}>
