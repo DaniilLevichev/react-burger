@@ -10,13 +10,19 @@ import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/
 import { v4 as uuidv4 } from 'uuid';
 import { PlaceComponent } from './place-component';
 import { crtOrder } from '../../services/actions/index';
+import { useNavigate } from 'react-router';
+import getCookie from '../../units/get-cookie';
+
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
     const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
     const dataPrice      = useSelector(state => state.constructorReducer.price);
     const dataOrder      = useSelector(state => state.order.request);
+    const dataUser       = useSelector(state => state.user.userData.name);
     const dispatch       = useDispatch();
+    const navigate       = useNavigate();
+
     const [{handlerId}, dropTarget] = useDrop({
         accept: "dragIngredient",
         drop(item) {
@@ -30,10 +36,12 @@ const BurgerConctructor = () => {
             }
         }
     });
+
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const setIsModalClose = () => {
         setIsModalOpen(false);
     };
+
     const moveComponent = (dragIndex, hoverIndex) => {
         const dragComponent = dataIngredient[dragIndex];
         const newComponents = [...dataIngredient];
@@ -41,14 +49,11 @@ const BurgerConctructor = () => {
         newComponents.splice(hoverIndex, 0, dragComponent);
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
-    const checkReponse = (res) => {
-        return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-    };
-    
+
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement
+                {dataPrice ? <ConstructorElement
                     type='top'
                     isLocked={true}
                     text={`${dataBun.name} верх`}
@@ -56,8 +61,8 @@ const BurgerConctructor = () => {
                     thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
             </div>
 
-            <div  className={`${mainStyles.constrCompnent} custom-scroll`}>
-                {dataIngredient ? dataIngredient.map((component, index) =>(
+            <div className={`${mainStyles.constrCompnent} custom-scroll`}>
+                {dataPrice ? dataIngredient.map((component, index) =>(
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
@@ -67,8 +72,8 @@ const BurgerConctructor = () => {
                 )) : <h1 className='text text_type_main-default'>Добавьте ингредиенты</h1>}
             </div>   
             
-            <div  className={mainStyles.bunDiv}>
-                {dataBun ? <ConstructorElement
+            <div className={mainStyles.bunDiv}>
+                {dataPrice ? <ConstructorElement
                     type='bottom'
                     isLocked={true}
                     text={`${dataBun.name} низ`}
@@ -78,7 +83,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
                 {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>

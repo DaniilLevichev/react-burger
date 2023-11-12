@@ -2,8 +2,6 @@ import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { CHECK_DETAIL } from '../../services/actions/ingredient-detail';
 
@@ -30,7 +28,7 @@ export const ShowIngredient = (props) =>{
     })
     if (props.ingredient.type === props.type) {
         return (
-            <div ref={dragRef} className={mainStyles.showPadding} onClick={() => {props.setIsModalOpen(true); props.setIngredient(props.ingredient); dispatch({type: CHECK_DETAIL, data:props.ingredient})}}>       
+            <div ref={dragRef} className={mainStyles.showPadding} onClick={() => {props.openModal(props.ingredient._id); props.setIngredient(props.ingredient); dispatch({type: CHECK_DETAIL, data:props.ingredient})}}>       
                 {countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type) > 0 && <Counter count={countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type)} size="small" />}
                 <img src={props.ingredient.image}/>
                 <div className={mainStyles.price}>

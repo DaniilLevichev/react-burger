@@ -1,0 +1,35 @@
+.mainDiv {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    align-items: center;    
+}
+
+.link {
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+.linkText {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 16px 0;
+}
+
+.header {
+    text-align: center;
+    padding: 0 0 24px 0;
+}
+
+.input {
+    display: flex;
+    padding: 0 0 24px 0;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 80px 0;
+}

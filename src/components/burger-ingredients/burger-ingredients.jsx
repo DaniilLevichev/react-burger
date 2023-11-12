@@ -9,7 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
-import { v4 as uuidv4 } from 'uuid';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const BurgerIngredients = () => {
 
@@ -18,6 +18,7 @@ const BurgerIngredients = () => {
     const [ingrState,   setIngredient]    = React.useState({});
 
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const setIsModalClose = () => {
         setIsModalOpen(false);
@@ -38,12 +39,16 @@ const BurgerIngredients = () => {
         const element = document.getElementById(tab);
         if (element) element.scrollIntoView({ behavior: "smooth" });
     };
-
+    const navigate = useNavigate();
     React.useEffect(() => {
         inViewBun && inViewSauce && !inViewMain && setCurrent('Булки');
         !inViewBun && inViewSauce && inViewMain && setCurrent('Соусы');
         !inViewBun && !inViewSauce && inViewMain && setCurrent('Начинки');
     }, [inViewBun, inViewSauce, inViewMain])
+    
+    const openModal = (ingredient) => {
+        navigate(`/ingredients/${ingredient}`, {state: { background: location }})
+    }
     
     return (
         <div ref={dragRef}  className={mainStyles.mainDiv}>
@@ -63,25 +68,25 @@ const BurgerIngredients = () => {
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='bun'/>
+                        <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
                 <div ref={refSauce} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='sauce'/>
+                        <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='sauce'/>
                     ))}
                 </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
                 <div ref={refMain} className={mainStyles.ingredients}> 
                     {data.ingredients.map((ingredient, index)=>(
-                        <ShowIngredient setIsModalOpen={setIsModalOpen} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
+                        <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
-                {isModalOpen && 
+                {/*isModalOpen && 
                 <Modal header='Детали ингридиента' onClicked={setIsModalClose}>
                     <IngredientDetails ingredient={ingrState}/>
-                </Modal>}
+                </Modal>*/}
             </div>
         </div>
     )

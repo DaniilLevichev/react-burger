@@ -1,28 +1,53 @@
 import React, {useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import mainStyles from './app.module.css';
 import AppHeader from '../header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConctructor from '../burger-constructor/burger-constructor';
+import MainPage from '../../pages/main-page';
 import { useDispatch } from 'react-redux';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { getData } from '../../services/actions/index'
+import { getData } from '../../services/actions/index';
+import { AutorizationPage } from '../../pages/authorization-page/authorization-page';
+import { RegisterPage } from '../../pages/register-page/register-page';
+import { FixPasswordPage } from '../../pages/fix-password-page/fix-password-page';
+import { ResetPasswordPage } from '../../pages/reset-password-page/reset-password-page';
+import { ProfilePage } from '../../pages/profile-page/profile-page';
+import { ProtectedRouteUnAuthorized, ProtectedRouteAuthorized } from '../protected-route';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import getCookie from '../../units/get-cookie';
+import { checkUser } from '../../services/actions/identification';
+import Modal from '../modal/modal';
 
 function App() {
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
   useEffect(()=>{
     dispatch(getData());
+    const accessToken = getCookie('accessToken');
+    const refreshToken  = getCookie('refreshToken');
+    if (accessToken && refreshToken) {
+        dispatch(checkUser(accessToken, refreshToken));
+    }
   });
 
+  const handleClose = () => {
+    navigate(-1);
+  }
+  
   return (
-    <div className={mainStyles.app}>
-        <AppHeader className={mainStyles.appHeader}/>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients/>
-          <BurgerConctructor/>
-        </DndProvider>
+    <div>
+      <AppHeader className={mainStyles.appHeader}/>
+      <Routes location={background || location}>
+        <Route path='/'                element={<MainPage/>}/>
+        <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
+        <Route path='/register'        element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
+        <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
+        <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
+        <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
+        <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
+      </Routes>
+      {background && <Routes><Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/></Routes>}
     </div>
   );
 }
