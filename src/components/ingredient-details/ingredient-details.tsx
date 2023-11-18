@@ -1,15 +1,29 @@
 import mainStyles from './ingredient-details.module.css';
-import PropTypes from 'prop-types';
-import { IngredientType, IngredientDetailType } from '../../units/ingredient-types';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-const IngredientDetails = (props) => {
+type TIngredientType = {
+    _id:            string;
+    name:           string;
+    type:           string;
+    proteins:       number;
+    fat:            number;
+    carbohydrates:  number;
+    calories:       number;
+    price:          number;
+    image:          string;
+    image_mobile:   string;
+    image_large:    string;
+    __v:            number;
+    id?:            string;
+}
+
+const IngredientDetails = () => {
     
     const params = useParams();
-    const ingredients = useSelector(state => state.ingredients.ingredients);
-    const ingredient = ingredients.find((ingredient) => ingredient._id === params.id);
+    const ingredients = useSelector((state: any) => state.ingredients.ingredients);
+    const ingredient = ingredients.find((ingredient: TIngredientType) => ingredient._id === params.id);
     
     return (
         ingredient ?
@@ -37,10 +51,5 @@ const IngredientDetails = (props) => {
         </div> : null
     )
 }
-
-
-IngredientDetails.propTypes = {
-    ingredient: PropTypes.shape(IngredientDetailType)
-};
 
 export default IngredientDetails;

@@ -2,7 +2,11 @@ import mainStyles from './order-details.module.css';
 import CheckMark from '../../images/ChekMark.jpg';
 import PropTypes from 'prop-types';
 
-const OrderDetails = (props) => {
+type TOrderDetail = {
+    orderNumber: number;
+}
+
+const OrderDetails = (props:TOrderDetail) => {
     return (
         <div className={mainStyles.detail}>
             <p className={`${mainStyles.zakazNumber} text text_type_digits-large`}>{props.orderNumber}</p>
@@ -13,7 +17,5 @@ const OrderDetails = (props) => {
         </div>
     )
 }
-
-OrderDetails.propTypes = {orderNumber: PropTypes.number.isRequired};
 
 export default OrderDetails;

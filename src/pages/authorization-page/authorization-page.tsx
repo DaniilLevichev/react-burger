@@ -15,16 +15,17 @@ export const AutorizationPage = () => {
     const [login,       setLogin]       = React.useState('');
     const [password,    setPassword]    = React.useState('');
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'email') {
             setLogin(e.target.value)
         } else {
             setPassword(e.target.value)
         }
     }
-    const confirm = (e) => {
+    const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const from = location.state?.from || '/';
+        //@ts-ignore
         dispatch(authorizationUser(login, password)); 
         navigate(from);
     }

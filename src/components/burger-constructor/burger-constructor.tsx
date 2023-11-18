@@ -1,5 +1,4 @@
 import React from 'react';
-import { BurgerPropTypes} from '../../units/ingredients-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
@@ -13,19 +12,34 @@ import { crtOrder } from '../../services/actions/index';
 import { useNavigate } from 'react-router';
 import getCookie from '../../units/get-cookie';
 
+type TIngredientType = {
+    _id:            string;
+    name:           string;
+    type:           string;
+    proteins:       number;
+    fat:            number;
+    carbohydrates:  number;
+    calories:       number;
+    price:          number;
+    image:          string;
+    image_mobile:   string;
+    image_large:    string;
+    __v:            number;
+    id?:            string;
+}
 
 const BurgerConctructor = () => {
-    const dataBun        = useSelector(state => state.constructorReducer.selectedBun);
-    const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
-    const dataPrice      = useSelector(state => state.constructorReducer.price);
-    const dataOrder      = useSelector(state => state.order.request);
-    const dataUser       = useSelector(state => state.user.userData.name);
+    const dataBun        = useSelector((state: any) => state.constructorReducer.selectedBun);
+    const dataIngredient = useSelector((state: any) => state.constructorReducer.selectedIngredients);
+    const dataPrice      = useSelector((state: any) => state.constructorReducer.price);
+    const dataOrder      = useSelector((state: any) => state.order.request);
+    const dataUser       = useSelector((state: any) => state.user.userData.name);
     const dispatch       = useDispatch();
     const navigate       = useNavigate();
 
     const [{handlerId}, dropTarget] = useDrop({
         accept: "dragIngredient",
-        drop(item) {
+        drop(item: TIngredientType) {
             item.type === 'bun' ?
                 dispatch({ type: PUT_BUN,        data: item}):
                 dispatch({ type: PUT_INGREDIENT, data: { ...item, id: uuidv4() } });
@@ -42,7 +56,7 @@ const BurgerConctructor = () => {
         setIsModalOpen(false);
     };
 
-    const moveComponent = (dragIndex, hoverIndex) => {
+    const moveComponent = (dragIndex: number, hoverIndex: number) => {
         const dragComponent = dataIngredient[dragIndex];
         const newComponents = [...dataIngredient];
         newComponents.splice(dragIndex, 1);
@@ -62,7 +76,7 @@ const BurgerConctructor = () => {
             </div>
 
             <div className={`${mainStyles.constrCompnent} custom-scroll`}>
-                {dataPrice ? dataIngredient.map((component, index) =>(
+                {dataPrice ? dataIngredient.map((component: TIngredientType, index: number) =>(
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
@@ -83,7 +97,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
                 {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch<any>(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>
@@ -92,7 +106,5 @@ const BurgerConctructor = () => {
         </div>
     );
 }
-
-BurgerConctructor.propTypes = BurgerPropTypes;
 
 export default BurgerConctructor;

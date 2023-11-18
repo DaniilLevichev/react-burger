@@ -17,7 +17,7 @@ export const RegisterPage = () => {
 
     const navigate = useNavigate();
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'name' ){
             setName(e.target.value)
         } else if (e.target.name === 'email') {
@@ -27,13 +27,14 @@ export const RegisterPage = () => {
         }
     }
 
-    const confirm = (e) => {
+    const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = {
             "email": login,
             "password": password,
             "name": name
         };
+        //@ts-ignore
         dispatch(createUser(data));
         navigate('/');
         

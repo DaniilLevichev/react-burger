@@ -7,11 +7,16 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-const Modal = (props) => {
-  const modalRoot = document.getElementById('portal-root');
-  const navigate = useNavigate();
+type TModalType = {
+  header?: string;
+  onClicked: () => void;
+  children: React.ReactNode;
+}
+
+const Modal = (props: TModalType) => {
+  const modalRoot = document.getElementById('portal-root') as HTMLElement;
   React.useEffect(() => {
-    const clickEsc = (event) => {
+    const clickEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         props.onClicked()
       }
@@ -30,7 +35,7 @@ const Modal = (props) => {
         <div className={mainStyles.square}>
           <div className={mainStyles.header} >
             <h1>{props.header}</h1>
-            <CloseIcon onClick={()=>{props.onClicked()}}/>
+            <CloseIcon type='primary' onClick={()=>{props.onClicked()}}/>
           </div>
           {props.children}
         </div>

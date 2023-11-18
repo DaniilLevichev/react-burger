@@ -15,13 +15,14 @@ export const FixPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     }
 
-    const confirm = (e) => {
+    const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(email) {
+            //@ts-ignore
             dispatch(fixPassword(email));
             navigate('/reset-password');
         }

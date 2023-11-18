@@ -1,6 +1,5 @@
 import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
-import { BurgerPropTypes} from '../../units/ingredients-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
@@ -11,9 +10,25 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+type TIngredientType = {
+    _id:            string;
+    name:           string;
+    type:           string;
+    proteins:       number;
+    fat:            number;
+    carbohydrates:  number;
+    calories:       number;
+    price:          number;
+    image:          string;
+    image_mobile:   string;
+    image_large:    string;
+    __v:            number;
+
+}
+
 const BurgerIngredients = () => {
 
-    const data = useSelector(state => state.ingredients);
+    const data = useSelector((state: any) => state.ingredients);
     const [isModalOpen, setIsModalOpen]   = React.useState(false);
     const [ingrState,   setIngredient]    = React.useState({});
 
@@ -35,7 +50,7 @@ const BurgerIngredients = () => {
     })
 
     const [current, setCurrent] = React.useState('one')
-    const setTab = (tab) => {
+    const setTab = (tab: string) => {
         const element = document.getElementById(tab);
         if (element) element.scrollIntoView({ behavior: "smooth" });
     };
@@ -46,7 +61,7 @@ const BurgerIngredients = () => {
         !inViewBun && !inViewSauce && inViewMain && setCurrent('Начинки');
     }, [inViewBun, inViewSauce, inViewMain])
     
-    const openModal = (ingredient) => {
+    const openModal = (ingredient: string) => {
         navigate(`/ingredients/${ingredient}`, {state: { background: location }})
     }
     
@@ -67,19 +82,19 @@ const BurgerIngredients = () => {
             <div className={`${mainStyles.ingredientsDiv} custom-scroll`}>
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient, index)=>(
+                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
                 <div ref={refSauce} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient, index)=>(
+                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='sauce'/>
                     ))}
                 </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
                 <div ref={refMain} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient, index)=>(
+                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
@@ -91,8 +106,5 @@ const BurgerIngredients = () => {
         </div>
     )
 }
-
-
-BurgerIngredients.propTypes = BurgerPropTypes;
 
   export default BurgerIngredients;

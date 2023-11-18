@@ -23,10 +23,12 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
+    //@ts-ignore
     dispatch(getData());
-    const accessToken = getCookie('accessToken');
-    const refreshToken  = getCookie('refreshToken');
+    const accessToken: string | undefined = getCookie('accessToken');
+    const refreshToken: string | undefined = getCookie('refreshToken');
     if (accessToken && refreshToken) {
+        //@ts-ignore
         dispatch(checkUser(accessToken, refreshToken));
     }
   });
@@ -37,7 +39,7 @@ function App() {
   
   return (
     <div>
-      <AppHeader className={mainStyles.appHeader}/>
+      <AppHeader/>
       <Routes location={background || location}>
         <Route path='/'                element={<MainPage/>}/>
         <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>

@@ -11,25 +11,26 @@ import { editUser } from '../../services/actions/identification';
 
 export const ProfilePage = () => {
 
-    const userName  = useSelector(state => state.user.userData.name);
-    const userEmail = useSelector(state => state.user.userData.email);
+    const userName  = useSelector((state: any) => state.user.userData.name);
+    const userEmail = useSelector((state: any) => state.user.userData.email);
     const [name,        setName]        = useState(userName);
     const [login,       setLogin]       = useState(userEmail);
     const [password,    setPassword]    = useState('');
-    const [isChanged,     setChanged]     = useState(false);
-    const [nameIcon, setNameIcon] = useState('EditIcon');
-    const [loginIcon, setLoginIcon] = useState('EditIcon');
+    const [isChanged,     setChanged]   = useState(false);
+    const [nameIcon, setNameIcon]       = useState('EditIcon');
+    const [loginIcon, setLoginIcon]     = useState('EditIcon');
     const dispatch  = useDispatch();
     const navigate  = useNavigate();
 
     const outUser = () => {
         const accessToken = getCookie('accessToken');
         const refreshToken  = getCookie('refreshToken');
+        //@ts-ignore
         dispatch(logoutUser(accessToken, refreshToken));
         navigate('/login');
     }
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'email') {
             setLogin(e.target.value)
             setLoginIcon('CloseIcon')
@@ -51,7 +52,7 @@ export const ProfilePage = () => {
         setNameIcon('EditIcon');
     }
 
-    const confirm = (e) => {
+    const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const userData = {
             "name": name,
@@ -59,6 +60,7 @@ export const ProfilePage = () => {
             "password": password
         }
         const accessToken = getCookie('accessToken');
+        //@ts-ignore
         dispatch(editUser(accessToken, userData));
     }
 
@@ -85,6 +87,7 @@ export const ProfilePage = () => {
                         error={false}
                         errorText={'Ошибка'}
                         size={'default'}
+                        //@ts-ignore
                         icon={nameIcon}
                         value={name}
                         onChange = {e => onChange(e)}
@@ -94,6 +97,7 @@ export const ProfilePage = () => {
                     <EmailInput
                         name={'email'}
                         placeholder={'Логин'}
+                        //@ts-ignore
                         icon={loginIcon}
                         value={login}
                         onChange = {e => onChange(e)}
@@ -103,6 +107,7 @@ export const ProfilePage = () => {
                     <PasswordInput
                         name={'password'}
                         placeholder={'Пароль'}
+                        //@ts-ignore
                         icon="EditIcon"
                         value={password}
                         onChange = {e => onChange(e)}

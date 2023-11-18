@@ -5,11 +5,32 @@ import { DELETE_INGREDIENT } from '../../services/actions/constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import React from 'react';
 
-export const PlaceComponent = (props) => {
-    const ref = React.useRef(null);
+type TPlaceComponent = {
+    component:{
+        _id:            string;
+        name:           string;
+        type:           string;
+        proteins:       number;
+        fat:            number;
+        carbohydrates:  number;
+        calories:       number;
+        price:          number;
+        image:          string;
+        image_mobile:   string;
+        image_large:    string;
+        __v:            number;
+    };
+    id: string | undefined;
+    index: number;
+    moveComponent: (arg0:number, arg1:number) => void;
+}
+
+
+export const PlaceComponent = (props: TPlaceComponent) => {
+    const ref = React.useRef<HTMLInputElement>(null);
     const [, dropRef] = useDrop ({
         accept: 'component',
-        hover: (item, monitor) => {
+        hover: (item: any, monitor: any) => {
             if (!ref.current) {
               return
             }
@@ -41,14 +62,14 @@ export const PlaceComponent = (props) => {
             isDragging: monitor.isDragging()
         })
     })
-    const opacity = isDragging ? 0 : 1;
+    const opacity: number = isDragging ? 0 : 1;
     const dispatch = useDispatch();
     dragRef(dropRef(ref))
     if (props.component.type === 'main' || props.component.type === 'sauce') {
         return(
             <div ref={ref} className={mainStyles.compMainDiv} style={{opacity}}>
                 <div className={mainStyles.compIcon}>
-                    <DragIcon/> 
+                    <DragIcon type='primary'/>
                 </div>
                 <div className={mainStyles.compElement}>
                     <ConstructorElement key={props.component._id}
@@ -60,5 +81,5 @@ export const PlaceComponent = (props) => {
                 </div>
             </div>
         )
-    }
+    } else return null;
 }

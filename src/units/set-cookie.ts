@@ -1,9 +1,13 @@
-function setCookie(name, value, props = {}) {
+type TSetCookie = {
+  expires?: any;
+  path?: string;
+}
+
+function setCookie(name: string, value: any, props: TSetCookie = {}) {
     props = {
       path: "/",
       ...props,
     };
-  
     let exp = props.expires;
     if (typeof exp == "number" && exp) {
       const d = new Date();
@@ -17,6 +21,7 @@ function setCookie(name, value, props = {}) {
     let updatedCookie = name + "=" + value;
     for (const propName in props) {
       updatedCookie += "; " + propName;
+      //@ts-ignore
       const propValue = props[propName];
       if (propValue !== true) {
         updatedCookie += "=" + propValue;

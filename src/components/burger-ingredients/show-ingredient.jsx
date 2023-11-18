@@ -5,6 +5,7 @@ import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux';
 import { CHECK_DETAIL } from '../../services/actions/ingredient-detail';
 
+
 export const ShowIngredient = (props) =>{
     const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
     const dataBun = useSelector(state => state.constructorReducer.selectedBun);
