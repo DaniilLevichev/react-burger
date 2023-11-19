@@ -6,8 +6,6 @@ import { createUser } from '../../services/actions/identification';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-
-
 export const RegisterPage = () => {
 
     const [name,        setName]        = React.useState('');

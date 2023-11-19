@@ -1,10 +1,7 @@
 import { Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
-
-type TProtectedRoute = {
-    element: React.ReactNode;
-}
+import { TProtectedRoute } from '../types/types';
 
 export const ProtectedRouteUnAuthorized = ({ element }: TProtectedRoute) => {
     

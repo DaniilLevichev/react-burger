@@ -1,11 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import mainStyles from './modal-overlay.module.css';
-import PropTypes from 'prop-types';
-
-type TModalOverlay = {
-  onClick: () => void;
-}
+import { TModalOverlay } from '../../types/types';
 
  const ModalOverlay = (props: TModalOverlay) => {
   return(

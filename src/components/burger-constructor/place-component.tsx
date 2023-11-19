@@ -4,27 +4,7 @@ import { useDispatch } from 'react-redux';
 import { DELETE_INGREDIENT } from '../../services/actions/constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import React from 'react';
-
-type TPlaceComponent = {
-    component:{
-        _id:            string;
-        name:           string;
-        type:           string;
-        proteins:       number;
-        fat:            number;
-        carbohydrates:  number;
-        calories:       number;
-        price:          number;
-        image:          string;
-        image_mobile:   string;
-        image_large:    string;
-        __v:            number;
-    };
-    id: string | undefined;
-    index: number;
-    moveComponent: (arg0:number, arg1:number) => void;
-}
-
+import { TPlaceComponent } from '../../types/types';
 
 export const PlaceComponent = (props: TPlaceComponent) => {
     const ref = React.useRef<HTMLInputElement>(null);

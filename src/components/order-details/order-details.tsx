@@ -1,10 +1,6 @@
 import mainStyles from './order-details.module.css';
 import CheckMark from '../../images/ChekMark.jpg';
-import PropTypes from 'prop-types';
-
-type TOrderDetail = {
-    orderNumber: number;
-}
+import { TOrderDetail } from '../../types/types';
 
 const OrderDetails = (props:TOrderDetail) => {
     return (

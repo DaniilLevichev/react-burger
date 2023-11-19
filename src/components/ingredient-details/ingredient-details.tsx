@@ -2,22 +2,7 @@ import mainStyles from './ingredient-details.module.css';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-
-type TIngredientType = {
-    _id:            string;
-    name:           string;
-    type:           string;
-    proteins:       number;
-    fat:            number;
-    carbohydrates:  number;
-    calories:       number;
-    price:          number;
-    image:          string;
-    image_mobile:   string;
-    image_large:    string;
-    __v:            number;
-    id?:            string;
-}
+import { TIngredientType } from '../../types/types';
 
 const IngredientDetails = () => {
     

@@ -9,22 +9,8 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { TIngredientType } from '../../types/types'
 
-type TIngredientType = {
-    _id:            string;
-    name:           string;
-    type:           string;
-    proteins:       number;
-    fat:            number;
-    carbohydrates:  number;
-    calories:       number;
-    price:          number;
-    image:          string;
-    image_mobile:   string;
-    image_large:    string;
-    __v:            number;
-
-}
 
 const BurgerIngredients = () => {
 
@@ -98,10 +84,6 @@ const BurgerIngredients = () => {
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
-                {/*isModalOpen && 
-                <Modal header='Детали ингридиента' onClicked={setIsModalClose}>
-                    <IngredientDetails ingredient={ingrState}/>
-                </Modal>*/}
             </div>
         </div>
     )
