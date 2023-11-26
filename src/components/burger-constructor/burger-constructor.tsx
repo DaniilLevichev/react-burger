@@ -3,7 +3,8 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktik
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import mainStyles from './burger-constructor.module.css'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from '../../types/redux-types';
 import { useDrop } from "react-dnd";
 import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/actions/constructor';   
 import { v4 as uuidv4 } from 'uuid';
@@ -81,7 +82,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
                 {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch<any>(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder.success && 
             <Modal onClicked={setIsModalClose}>

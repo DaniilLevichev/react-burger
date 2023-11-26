@@ -1,3 +1,4 @@
+import { TApplicationActions, TConstructorReducer } from "../../types/redux-types";
 import { PUT_BUN, PUT_INGREDIENT, DELETE_INGREDIENT, UPDATE_COMPONENT_ORDER } from "../actions/constructor";
 
 const initialState = {
@@ -10,7 +11,6 @@ const initialState = {
 export const constructorReducer = (state = initialState, action) => {
     switch(action.type) {
         case PUT_BUN: {
-            const thisPrice = action.data.price === state.priceBun ? 0 : action.data.price;
             return {...state, price: state.price - state.priceBun + action.data.price*2, priceBun: action.data.price*2, selectedBun: action.data}
         }
         case PUT_INGREDIENT: {

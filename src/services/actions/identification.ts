@@ -1,18 +1,19 @@
+import { AppDispatch, AppThunk, TUserData } from '../../types/redux-types';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import deleteCookie from '../../units/delete-cookie';
 import setCookie from '../../units/set-cookie';
 
-export const CHECK_USER = 'CHECK_USER';
-export const REGISTRY_USER = 'REGISTRY_USER';
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const LOGIN_USER = 'LOGIN_USER';
-export const FIX_PASSWORD = 'FIX_PASSWORD';
-export const RESET_PASSWORD = 'RESET_PASSWORD';
-export const EDIT_USER = 'EDIT_USER';
+export const CHECK_USER: 'CHECK_USER' = 'CHECK_USER';
+export const REGISTRY_USER: 'REGISTRY_USER' = 'REGISTRY_USER';
+export const LOGOUT_USER: 'LOGOUT_USER' = 'LOGOUT_USER';
+export const LOGIN_USER: 'LOGIN_USER' = 'LOGIN_USER';
+export const FIX_PASSWORD: 'FIX_PASSWORD' = 'FIX_PASSWORD';
+export const RESET_PASSWORD: 'RESET_PASSWORD' = 'RESET_PASSWORD';
+export const EDIT_USER: 'EDIT_USER' = 'EDIT_USER';
 
-export const checkUser = (accessToken, refreshToken) => {
-    return (dispatch) => {
+export const checkUser: AppThunk = (accessToken: string, refreshToken: string) => {
+    return (dispatch: AppDispatch) => {
         fetch(BASE_URL+'/auth/user', {
             method: 'GET',
             headers: {
@@ -50,8 +51,8 @@ export const checkUser = (accessToken, refreshToken) => {
     }
 };
 
-export const editUser = (accessToken, userData) => {
-    return (dispatch) => {
+export const editUser: AppThunk = (accessToken: string, userData: TUserData) => {
+    return (dispatch: AppDispatch) => {
         fetch(BASE_URL+'/auth/user', {
             method: 'PATCH',
             headers: {
@@ -72,8 +73,8 @@ export const editUser = (accessToken, userData) => {
     }
 };
 
-export const createUser = (dataUser) => {
-    return (dispatch) => {
+export const createUser: AppThunk = (dataUser) => {
+    return (dispatch: AppDispatch) => {
         fetch(BASE_URL+'/auth/register', {
             method: 'POST',
             headers: {
@@ -93,8 +94,8 @@ export const createUser = (dataUser) => {
     }
 };
 
-export const logoutUser = (accessToken, refreshToken) => {
-    return(dispatch) => {
+export const logoutUser: AppThunk = (accessToken, refreshToken) => {
+    return(dispatch: AppDispatch) => {
         fetch(BASE_URL + '/auth/logout', {
             method: 'POST',
             headers: {
@@ -114,8 +115,8 @@ export const logoutUser = (accessToken, refreshToken) => {
     }
 }
 
-export const authorizationUser = (login, password) => {
-    return(dispatch) => {
+export const authorizationUser: AppThunk = (login, password) => {
+    return(dispatch: AppDispatch) => {
         fetch(BASE_URL + '/auth/login', {
             method: 'POST',
             headers: {
@@ -138,8 +139,8 @@ export const authorizationUser = (login, password) => {
     }
 }
 
-export const fixPassword = (email) => {
-    return(dispatch) => {
+export const fixPassword: AppThunk = (email) => {
+    return(dispatch: AppDispatch) => {
         fetch(BASE_URL+'/password-reset', {
             method: 'POST',
             headers: {
@@ -161,8 +162,8 @@ export const fixPassword = (email) => {
     }
 }
 
-export const resetPassword = (password, token) => {
-    return(dispatch) => {
+export const resetPassword: AppThunk = (password, token) => {
+    return(dispatch: AppDispatch) => {
         fetch(BASE_URL+'/password-reset', {
             method: 'POST',
             headers: {

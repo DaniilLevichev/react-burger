@@ -16,9 +16,7 @@
     position: absolute;
     top: 53%;
     left: 25%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
+    transform: translate(-50%, -50%);                                                                                           
 }
 
 .link {

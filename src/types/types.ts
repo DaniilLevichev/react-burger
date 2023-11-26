@@ -45,3 +45,4 @@ export type TOrderDetail = {
 export type TProtectedRoute = {
     element: React.ReactNode;
 }
+    
