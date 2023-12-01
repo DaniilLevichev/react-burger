@@ -15,6 +15,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import getCookie from '../../units/get-cookie';
 import { checkUser } from '../../services/actions/identification';
 import Modal from '../modal/modal';
+import { OrderFeed } from '../order-feed/order-feed';
 
 function App() {
   const location = useLocation();
@@ -48,6 +49,7 @@ function App() {
         <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
         <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
         <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
+        <Route path='/feed'            element={<OrderFeed/>}/>
       </Routes>
       {background && <Routes><Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/></Routes>}
     </div>

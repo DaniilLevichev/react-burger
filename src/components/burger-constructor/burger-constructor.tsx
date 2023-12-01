@@ -3,8 +3,8 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktik
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import mainStyles from './burger-constructor.module.css'
-import { useSelector } from 'react-redux';
-import { useDispatch } from '../../types/redux-types';
+import {  } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { useDrop } from "react-dnd";
 import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/actions/constructor';   
 import { v4 as uuidv4 } from 'uuid';

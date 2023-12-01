@@ -1,4 +1,5 @@
-import { AppDispatch, AppThunk, TUserData } from '../../types/redux-types';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppDispatch, AppThunk, TApplicationActions, TUserData } from '../../types/redux-types';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import deleteCookie from '../../units/delete-cookie';
@@ -12,48 +13,51 @@ export const FIX_PASSWORD: 'FIX_PASSWORD' = 'FIX_PASSWORD';
 export const RESET_PASSWORD: 'RESET_PASSWORD' = 'RESET_PASSWORD';
 export const EDIT_USER: 'EDIT_USER' = 'EDIT_USER';
 
-export const checkUser: AppThunk = (accessToken: string, refreshToken: string) => {
-    return (dispatch: AppDispatch) => {
-        fetch(BASE_URL+'/auth/user', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'authorization' : accessToken
-            }
-        })
-            .then(checkReponse)
-            .then(data => {
-                if(data.success){
-                    dispatch({type:CHECK_USER, data:data.user});
+export const checkUser = (accessToken: string, refreshToken: string): AppThunk<Promise<unknown>> => {
+    return (dispatch) => {
+        return(
+            fetch(BASE_URL+'/auth/user', {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'authorization' : accessToken
                 }
             })
-            .catch(error => {
-                if (error.message === 'jwt expired'){
-                    fetch(BASE_URL+'/auth/token', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({"token": refreshToken}),
-                    })
-                        .then(checkReponse)
-                        .then(data => {
-                            if (data.success){
-                                setCookie('accessToken', data.accessToken);
-                                setCookie('refreshToken', data.refreshToken);
-                            }
+                .then(checkReponse)
+                .then(data => {
+                    if(data.success){
+                        dispatch({type:CHECK_USER, data:data.user});
+                    }
+                })
+                .catch(error => {
+                    if (error.message === 'jwt expired'){
+                        fetch(BASE_URL+'/auth/token', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"token": refreshToken}),
                         })
-                        .catch(error=> {
-                            console.error(error);
-                        })
-                } else console.error(error);
-            });
+                            .then(checkReponse)
+                            .then(data => {
+                                if (data.success){
+                                    setCookie('accessToken', data.accessToken);
+                                    setCookie('refreshToken', data.refreshToken);
+                                }
+                            })
+                            .catch(error=> {
+                                console.error(error);
+                            })
+                    } else console.error(error);
+                })
+        )
     }
 };
 
-export const editUser: AppThunk = (accessToken: string, userData: TUserData) => {
-    return (dispatch: AppDispatch) => {
-        fetch(BASE_URL+'/auth/user', {
+export const editUser = (accessToken: string, userData: TUserData): AppThunk<Promise<unknown>> => {
+    return (dispatch) => {
+        return (
+            fetch(BASE_URL+'/auth/user', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -69,7 +73,9 @@ export const editUser: AppThunk = (accessToken: string, userData: TUserData) => 
             })
             .catch(error => {
                 console.error(error);
-            });
+            })
+        )
+        
     }
 };
 

@@ -3,6 +3,7 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import mainStyles from '../../src/components/app/app.module.css';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { OrderFeed } from '../components/order-feed/order-feed';
 
 export default function MainPage() {
     return(

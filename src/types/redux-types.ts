@@ -9,7 +9,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Action, ActionCreator } from 'redux';
 import { store } from '../services/store';
 import { rootReducer } from '../services/reducers';
-import { useDispatch as dispatchHook } from 'react-redux';
+import { useDispatch as dispatchHook, TypedUseSelectorHook, useSelector as selectorHook } from 'react-redux';
 
 export type TConstructorReducer = {
     selectedBun: TIngredientType | {},
@@ -37,7 +37,7 @@ interface IDeleteIngredient {
 }
 interface IUpdateComponentOrder {
     readonly type: typeof UPDATE_COMPONENT_ORDER;
-    data: TIngredientType;
+    data: ReadonlyArray<TIngredientType>;
 }
 interface ICheckDetail {
     readonly type: typeof CHECK_DETAIL;
@@ -87,7 +87,7 @@ interface IEditUser {
     data: TUserData;
 }
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>; 
 
 export type TApplicationActions = IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
 
@@ -98,6 +98,9 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   TApplicationActions
 >;
 
-export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
-export const useDispatch = () => dispatchHook<AppDispatch>();
+//export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
+export type AppDispatch = Dispatch<TApplicationActions>; 
+
+export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
+export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>(); 
 //export type AppDispatch = Dispatch<TApplicationActions>; 

@@ -1,11 +1,23 @@
+import { TApplicationActions } from "../../types/redux-types";
 import { CHECK_USER, REGISTRY_USER, LOGOUT_USER, LOGIN_USER, FIX_PASSWORD, RESET_PASSWORD, EDIT_USER } from "../actions/identification";
 
-const initialState = {
+type TUserData = {
+    email: string,
+    name: string
+} 
+
+type TUserReducer = {
+    userData: {}|TUserData,
+    isForgotPassword: boolean
+}
+
+const initialState: TUserReducer = {
     userData: {},
     isForgotPassword: false
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TApplicationActions): TUserReducer => {
+    console.log(state);
     switch(action.type) {
         case CHECK_USER: {
             return {...state, userData: action.data}
