@@ -3,11 +3,11 @@ import { TIngredientType } from "../../types/types";
 import { CHECK_DETAIL, DELETE_DETAIL } from "../actions/ingredient-detail";
 
 export type TDetailReducer = {
-    checkedIngredient: {} | TIngredientType
+    checkedIngredient: TIngredientType | null
 }
 
-const initialState: TDetailReducer ={
-    checkedIngredient: {}
+const initialState: TDetailReducer = {
+    checkedIngredient: null
 }
 
 export const detailReducer = (state = initialState, action: TApplicationActions): TDetailReducer => {

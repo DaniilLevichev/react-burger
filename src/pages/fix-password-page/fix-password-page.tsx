@@ -6,7 +6,7 @@ import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
 import { fixPassword } from '../../services/actions/identification';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../types/redux-types';
 
 export const FixPasswordPage = () => {
 

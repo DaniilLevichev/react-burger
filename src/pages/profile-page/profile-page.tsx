@@ -1,13 +1,13 @@
 import React from 'react';
-import { PasswordInput, EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { PasswordInput, EmailInput, Input, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './profile-page.module.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { useNavigate } from 'react-router';
 import getCookie from '../../units/get-cookie';
 import { logoutUser } from '../../services/actions/identification';
-import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { editUser } from '../../services/actions/identification';
+import { NavLink } from 'react-router-dom';
 
 export const ProfilePage = () => {
 
@@ -72,7 +72,7 @@ export const ProfilePage = () => {
                     <a className="text text_type_main-large">Профиль</a>
                 </div>
                 <div className={mainStyles.navPanel}>
-                    <a className="text text_type_main-large text_color_inactive">История заказов</a>
+                    <NavLink to='/profile/orders' className={`${mainStyles.link} text text_type_main-large text_color_inactive`}>История заказов</NavLink>
                 </div>
                 <div className={mainStyles.navPanel}>
                     <a onClick={()=>{outUser()}}className="text text_type_main-large text_color_inactive">Выход</a>

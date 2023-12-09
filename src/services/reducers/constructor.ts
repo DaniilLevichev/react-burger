@@ -3,14 +3,14 @@ import { TIngredientType } from "../../types/types";
 import { PUT_BUN, PUT_INGREDIENT, DELETE_INGREDIENT, UPDATE_COMPONENT_ORDER } from "../actions/constructor";
 
 export type TConstructorState = {
-    selectedBun:            TIngredientType|{},
+    selectedBun:            TIngredientType|null,
     priceBun:               number,
-    selectedIngredients:    ReadonlyArray<TIngredientType>,
+    selectedIngredients:    TIngredientType[],
     price:                  number 
 }
 
 const initialState: TConstructorState = {
-    selectedBun: {},
+    selectedBun: null,
     priceBun: 0,
     selectedIngredients: [],
     price: 0

@@ -14,11 +14,11 @@ import { useNavigate } from 'react-router';
 import { TIngredientType } from '../../types/types';
 
 const BurgerConctructor = () => {
-    const dataBun        = useSelector((state: any) => state.constructorReducer.selectedBun);
-    const dataIngredient = useSelector((state: any) => state.constructorReducer.selectedIngredients);
-    const dataPrice      = useSelector((state: any) => state.constructorReducer.price);
-    const dataOrder      = useSelector((state: any) => state.order.request);
-    const dataUser       = useSelector((state: any) => state.user.userData.name);
+    const dataBun        = useSelector( state => state.constructorReducer.selectedBun );
+    const dataIngredient = useSelector( state => state.constructorReducer.selectedIngredients);
+    const dataPrice      = useSelector( state => state.constructorReducer.price);
+    const dataOrder      = useSelector( state => state.order.request);
+    const dataUser       = useSelector( state => state.user.userData);
     const dispatch       = useDispatch();
     const navigate       = useNavigate();
 
@@ -48,16 +48,16 @@ const BurgerConctructor = () => {
         newComponents.splice(hoverIndex, 0, dragComponent);
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
-
+    
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
-                {dataPrice ? <ConstructorElement
+                {dataBun ? <ConstructorElement
                     type='top'
                     isLocked={true}
-                    text={`${dataBun.name} верх`}
-                    price={dataBun.price}
-                    thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
+                    text={`${dataBun?.name} верх`}
+                    price={dataBun?.price}
+                    thumbnail={dataBun?.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
             </div>
 
             <div className={`${mainStyles.constrCompnent} custom-scroll`}>
@@ -72,19 +72,19 @@ const BurgerConctructor = () => {
             </div>   
             
             <div className={mainStyles.bunDiv}>
-                {dataPrice ? <ConstructorElement
+                {dataBun ? <ConstructorElement
                     type='bottom'
                     isLocked={true}
-                    text={`${dataBun.name} низ`}
-                    price={dataBun.price}
-                    thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
+                    text={`${dataBun?.name} низ`}
+                    price={dataBun?.price}
+                    thumbnail={dataBun?.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
             </div>
             <div className={mainStyles.result}> 
-                <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
-                {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {!!dataPrice && <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>}
+                {!!dataPrice && <div className={mainStyles.priceIcon}><CurrencyIcon type="primary" /></div>}
+                {dataBun && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
-            {isModalOpen && dataOrder.success && 
+            {isModalOpen && dataOrder?.success && 
             <Modal onClicked={setIsModalClose}>
                 <OrderDetails orderNumber={dataOrder.order.number}/>
             </Modal>}

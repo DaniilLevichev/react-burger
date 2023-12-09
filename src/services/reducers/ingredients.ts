@@ -3,7 +3,7 @@ import { TIngredientType } from '../../types/types'
 import {GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS} from '../actions/ingredients'
 
 export type TIngredientReducer = {
-    ingredients: ReadonlyArray<TIngredientType>,
+    ingredients: Array<TIngredientType>,
     isLoading: boolean
 }
 

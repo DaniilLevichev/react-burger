@@ -1,7 +1,7 @@
 import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { useDrag } from "react-dnd";
 import { ShowIngredient } from './show-ingredient';
 import { useInView } from 'react-intersection-observer';
@@ -14,7 +14,7 @@ import { TIngredientType } from '../../types/types'
 
 const BurgerIngredients = () => {
 
-    const data = useSelector((state: any) => state.ingredients);
+    const data = useSelector( state => state.ingredients);
     const [isModalOpen, setIsModalOpen]   = React.useState(false);
     const [ingrState,   setIngredient]    = React.useState({});
 

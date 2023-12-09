@@ -13,6 +13,23 @@ export const FIX_PASSWORD: 'FIX_PASSWORD' = 'FIX_PASSWORD';
 export const RESET_PASSWORD: 'RESET_PASSWORD' = 'RESET_PASSWORD';
 export const EDIT_USER: 'EDIT_USER' = 'EDIT_USER';
 
+type TUser = {
+    email: string,
+    name: string
+}
+
+type TCheckUserResponse = {
+    success: boolean,
+    user: TUser
+}
+
+type TCheckToken = {
+    success: boolean,
+    accessToken: string,
+    refreshToken: string,
+    user: TUser
+}
+
 export const checkUser = (accessToken: string, refreshToken: string): AppThunk<Promise<unknown>> => {
     return (dispatch) => {
         return(
@@ -23,7 +40,7 @@ export const checkUser = (accessToken: string, refreshToken: string): AppThunk<P
                   'authorization' : accessToken
                 }
             })
-                .then(checkReponse)
+                .then(checkReponse<TCheckUserResponse>)
                 .then(data => {
                     if(data.success){
                         dispatch({type:CHECK_USER, data:data.user});
@@ -38,7 +55,7 @@ export const checkUser = (accessToken: string, refreshToken: string): AppThunk<P
                             },
                             body: JSON.stringify({"token": refreshToken}),
                         })
-                            .then(checkReponse)
+                            .then(checkReponse<TCheckToken>)
                             .then(data => {
                                 if (data.success){
                                     setCookie('accessToken', data.accessToken);
@@ -65,7 +82,7 @@ export const editUser = (accessToken: string, userData: TUserData): AppThunk<Pro
             },
             body: JSON.stringify(userData)
         })
-            .then(checkReponse)
+            .then(checkReponse<TCheckUserResponse>)
             .then(data => {
                 if(data.success){
                     dispatch({type:EDIT_USER, data:data.user});
@@ -79,115 +96,136 @@ export const editUser = (accessToken: string, userData: TUserData): AppThunk<Pro
     }
 };
 
-export const createUser: AppThunk = (dataUser) => {
-    return (dispatch: AppDispatch) => {
-        fetch(BASE_URL+'/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dataUser),
-        })
-            .then(checkReponse)
-            .then(data => {
-                dispatch({type:REGISTRY_USER, data:data.user});
-                setCookie('accessToken', data.accessToken);
-                setCookie('refreshToken', data.refreshToken);
+type TRegistryUser = {
+    email: string,
+    password: string,
+    name: string
+}
+
+export const createUser = (dataUser: TRegistryUser): AppThunk<Promise<unknown>> => {
+    return (dispatch) => {
+        return (
+            fetch(BASE_URL+'/auth/register', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataUser),
             })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(checkReponse<TCheckToken>)
+                .then(data => {
+                    dispatch({type:REGISTRY_USER, data:data.user});
+                    setCookie('accessToken', data.accessToken);
+                    setCookie('refreshToken', data.refreshToken);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        )
     }
 };
 
-export const logoutUser: AppThunk = (accessToken, refreshToken) => {
-    return(dispatch: AppDispatch) => {
-        fetch(BASE_URL + '/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"token": refreshToken}),
-        })
-            .then(checkReponse)
-            .then(data => {
-                dispatch({type: LOGOUT_USER});
-                deleteCookie('accessToken');
-                deleteCookie('refreshToken');
+type TLogoutUser = {
+    success: boolean,
+    message: string
+}
+
+export const logoutUser = (accessToken: string, refreshToken: string): AppThunk<Promise<unknown>> => {
+    return(dispatch) => {
+        return (
+            fetch(BASE_URL + '/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"token": refreshToken}),
             })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(checkReponse<TLogoutUser>)
+                .then(data => {
+                    dispatch({type: LOGOUT_USER});
+                    deleteCookie('accessToken');
+                    deleteCookie('refreshToken');
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        )
     }
 }
 
-export const authorizationUser: AppThunk = (login, password) => {
-    return(dispatch: AppDispatch) => {
-        fetch(BASE_URL + '/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "email": login,
-                "password": password
+export const authorizationUser = (login: string, password: string): AppThunk<Promise<unknown>> => {
+    return(dispatch) => {
+        return(
+            fetch(BASE_URL + '/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "email": login,
+                    "password": password
+                })
             })
-        })
-            .then(checkReponse)
-            .then(data => {
-                dispatch({type:LOGIN_USER, data:data.user});
-                setCookie('accessToken', data.accessToken);
-                setCookie('refreshToken', data.refreshToken);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(checkReponse<TCheckToken>)
+                .then(data => {
+                    dispatch({type:LOGIN_USER, data:data.user});
+                    setCookie('accessToken', data.accessToken);
+                    setCookie('refreshToken', data.refreshToken);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        )
     }
 }
 
-export const fixPassword: AppThunk = (email) => {
-    return(dispatch: AppDispatch) => {
-        fetch(BASE_URL+'/password-reset', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "email": email
+export const fixPassword = (email: string): AppThunk<Promise<unknown>> => {
+    return(dispatch) => {
+        return(
+            fetch(BASE_URL+'/password-reset', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "email": email
+                })
             })
-        })
-            .then(checkReponse)
-            .then(data => {
-                if (data.success) {
-                    dispatch({type:FIX_PASSWORD});
-                } 
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(checkReponse<TLogoutUser>)
+                .then(data => {
+                    if (data.success) {
+                        dispatch({type:FIX_PASSWORD});
+                    } 
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        )
     }
 }
 
-export const resetPassword: AppThunk = (password, token) => {
-    return(dispatch: AppDispatch) => {
-        fetch(BASE_URL+'/password-reset', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "password": password,
-                "token": token
+export const resetPassword = (password: string, token: string): AppThunk<Promise<unknown>> => {
+    return(dispatch) => {
+        return(
+            fetch(BASE_URL+'/password-reset/reset', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "password": password,
+                    "token": token
+                })
             })
-        })
-            .then(checkReponse)
-            .then(data => {
-                if (data.success) {
-                    dispatch({type: RESET_PASSWORD});
-                } 
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(checkReponse<TLogoutUser>)
+                .then(data => {
+                    if (data.success) {
+                        dispatch({type: RESET_PASSWORD});
+                    } 
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        )
     }
 }

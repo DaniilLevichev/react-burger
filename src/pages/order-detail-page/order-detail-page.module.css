@@ -1,0 +1,61 @@
+.mainDiv{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 640px;
+}
+
+.orderNumber {
+    display: flex;
+    justify-content: center;
+}
+
+.ingredientsList{
+    margin-top: 24px;
+    margin-left: -30px;
+    overflow: auto;
+    max-height: 312;
+    max-height: 200px;
+}
+
+.bottomInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.price {
+    display: flex;
+    margin-right: 24px;
+}
+  
+.imgaesItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    padding: 4px;
+    border-radius: 50%;
+    border: 2px solid #801AB2;
+    background: var(--interface-bg, #131316);
+}
+
+.image {
+    flex-shrink: 0;
+    width: 112px;
+    height: 56px;
+}
+
+.body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.priceIcon {
+    padding-left: 15px;
+}

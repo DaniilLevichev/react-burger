@@ -15,7 +15,11 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import getCookie from '../../units/get-cookie';
 import { checkUser } from '../../services/actions/identification';
 import Modal from '../modal/modal';
-import { OrderFeed } from '../order-feed/order-feed';
+import { OrderFeed } from '../../pages/order-feed-page/order-feed-page';
+import { OrderNumber } from '../../pages/order-detail-page/order-detail-page';
+import { OrdersHistoryPage } from '../../pages/orders-history-page/orders-history-page';
+import { FEED_CONNECTION_START } from '../../services/actions/feed-web-socket';
+import OrderDetails from '../order-details/order-details';
 
 function App() {
   const location = useLocation();
@@ -48,10 +52,16 @@ function App() {
         <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
         <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
         <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
+        <Route path='/profile/orders'  element={<ProtectedRouteUnAuthorized element={<OrdersHistoryPage/>}/>}/>
         <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
+        <Route path='/feed/:number'    element={<OrderNumber/>}/>
         <Route path='/feed'            element={<OrderFeed/>}/>
       </Routes>
-      {background && <Routes><Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/></Routes>}
+      {background && 
+      <Routes>
+        <Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/>
+        <Route path='/feed/:number' element={<Modal onClicked={handleClose} header=''><OrderNumber/></Modal>}/>
+      </Routes>}
     </div>
   );
 }

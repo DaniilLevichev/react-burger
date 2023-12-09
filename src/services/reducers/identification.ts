@@ -7,17 +7,16 @@ type TUserData = {
 } 
 
 type TUserReducer = {
-    userData: {}|TUserData,
+    userData: TUserData|null,
     isForgotPassword: boolean
 }
 
 const initialState: TUserReducer = {
-    userData: {},
+    userData: null,
     isForgotPassword: false
 }
 
 export const userReducer = (state = initialState, action: TApplicationActions): TUserReducer => {
-    console.log(state);
     switch(action.type) {
         case CHECK_USER: {
             return {...state, userData: action.data}
@@ -32,7 +31,7 @@ export const userReducer = (state = initialState, action: TApplicationActions): 
             return {...state, userData: action.data}
         }
         case LOGOUT_USER: {
-            return {...state, userData: {}}
+            return {...state, userData: null}
         }
         case FIX_PASSWORD: {
             return {...state, isForgotPassword: true}

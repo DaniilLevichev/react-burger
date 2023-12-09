@@ -7,19 +7,19 @@ type TNumber = {
 
 type TRequest = {
     name: string,
-    order: TNumber
+    order: TNumber,
+    success?: string 
 }
 
 export type TOrderReducer = {
-    request: TRequest | {}
+    request: TRequest | null
 }
 
 const initialState: TOrderReducer = {
-    request: {}
+    request: null
 }
 
 export const orderReducer = (state = initialState, action: TApplicationActions): TOrderReducer => {
-    console.log(state);
     switch(action.type){
         case(CREATE_ORDER):{
             return {...state, request: action.data}

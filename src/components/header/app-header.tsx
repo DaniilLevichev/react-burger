@@ -1,10 +1,10 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './app-header.module.css'
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector} from '../../types/redux-types';
 
 export default function AppHeader () {
-    const dataUser = useSelector((state: any) => state.user.userData.name);
+    const dataUser = useSelector( state => state.user.userData);
     return (
         <header>
             <nav className={mainStyles.background}>
@@ -14,7 +14,7 @@ export default function AppHeader () {
                             <BurgerIcon type='primary'/>
                             <p className={`${mainStyles.text} text text_type_main-default`}>Конструктор</p>
                         </NavLink>
-                        <NavLink to='/' className={mainStyles.links}>
+                        <NavLink to='/feed' className={mainStyles.links}>
                             <ListIcon type='primary'/>
                             <p className={`${mainStyles.text} text text_type_main-default`}>Лента заказов</p>
                         </NavLink>
@@ -25,7 +25,7 @@ export default function AppHeader () {
                     <div className={mainStyles.extremeDiv}>
                         <NavLink to='/profile' className={mainStyles.account}>
                             <ProfileIcon type='primary'/>
-                            <p className={`${mainStyles.text} text text_type_main-default`}>{dataUser ? dataUser : 'Личный кабинет'}</p>
+                            <p className={`${mainStyles.text} text text_type_main-default`}>{dataUser ? dataUser?.name : 'Личный кабинет'}</p>
                         </NavLink>
                     </div>
                 </section>

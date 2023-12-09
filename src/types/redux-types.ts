@@ -10,6 +10,7 @@ import { Action, ActionCreator } from 'redux';
 import { store } from '../services/store';
 import { rootReducer } from '../services/reducers';
 import { useDispatch as dispatchHook, TypedUseSelectorHook, useSelector as selectorHook } from 'react-redux';
+import { IWSActions } from '../services/actions/feed-web-socket';
 
 export type TConstructorReducer = {
     selectedBun: TIngredientType | {},
@@ -37,7 +38,7 @@ interface IDeleteIngredient {
 }
 interface IUpdateComponentOrder {
     readonly type: typeof UPDATE_COMPONENT_ORDER;
-    data: ReadonlyArray<TIngredientType>;
+    data: TIngredientType[];
 }
 interface ICheckDetail {
     readonly type: typeof CHECK_DETAIL;
@@ -45,7 +46,7 @@ interface ICheckDetail {
 }
 interface IDeleteDetail {
     readonly type: typeof DELETE_DETAIL;
-    data: TIngredientType;
+    data: TIngredientType | null;
 }
 interface IGetIngredientsRequest {
     readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -59,7 +60,7 @@ interface IGetIngredientsSuccess {
 }
 interface ICreateOrder {
     readonly type: typeof CREATE_ORDER;
-    data: string[];
+    data: any;
 }
 interface ICheckUser {
     readonly type: typeof CHECK_USER;
@@ -89,7 +90,10 @@ interface IEditUser {
 
 export type RootState = ReturnType<typeof store.getState>; 
 
-export type TApplicationActions = IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
+export type TApplicationActions = IWSActions | IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
+
+
+
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -99,8 +103,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 //export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
-export type AppDispatch = Dispatch<TApplicationActions>; 
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>; 
 
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
-export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>(); 
+export const useDispatch = () => dispatchHook<AppDispatch>(); 
 //export type AppDispatch = Dispatch<TApplicationActions>; 

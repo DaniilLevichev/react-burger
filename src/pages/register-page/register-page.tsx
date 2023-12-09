@@ -3,7 +3,7 @@ import { PasswordInput, EmailInput, Input, Button } from '@ya.praktikum/react-de
 import mainStyles from './register-page.module.css';
 import { useNavigate } from 'react-router';
 import { createUser } from '../../services/actions/identification';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../types/redux-types';
 import { NavLink } from 'react-router-dom';
 
 export const RegisterPage = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './authorization-page.module.css';
 import { authorizationUser } from '../../services/actions/identification';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from '../../types/redux-types';
 import { useNavigate, useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 

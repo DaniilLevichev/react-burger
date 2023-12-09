@@ -4,12 +4,12 @@ import mainStyles from './reset-password-page.module.css';
 import BASE_URL from '../../units/base-url';
 import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { resetPassword } from '../../services/actions/identification';
 
 export const ResetPasswordPage = () => {
 
-    const dataUser = useSelector((state: any) => state.user.isForgotPassword);
+    const dataUser = useSelector( state => state.user.isForgotPassword);
     const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
