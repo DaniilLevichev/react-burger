@@ -1,6 +1,6 @@
 import setCookie from "./set-cookie";
 
-function deleteCookie(name) {
+function deleteCookie(name: string) {
   setCookie(name, null, { expires: -1 });
 } 
 

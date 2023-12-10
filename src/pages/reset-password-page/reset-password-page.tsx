@@ -9,7 +9,7 @@ import { resetPassword } from '../../services/actions/identification';
 
 export const ResetPasswordPage = () => {
 
-    const dataUser = useSelector(state => state.user.isForgotPassword);
+    const dataUser = useSelector((state: any) => state.user.isForgotPassword);
     const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
@@ -21,7 +21,7 @@ export const ResetPasswordPage = () => {
         !dataUser && navigate('/');
     }, [])
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'password'){
             setPassword(e.target.value);
         } else {
@@ -29,9 +29,10 @@ export const ResetPasswordPage = () => {
         }
     }
 
-    const confirm = (e) => {
+    const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(password && token ) {
+            //@ts-ignore
             dispatch(resetPassword(password, token));
             navigate('/login');
         }

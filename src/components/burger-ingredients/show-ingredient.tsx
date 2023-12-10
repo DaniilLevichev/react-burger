@@ -4,17 +4,19 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux';
 import { CHECK_DETAIL } from '../../services/actions/ingredient-detail';
+import { TShowIngredient, TIngredientType } from '../../types/types';
 
-export const ShowIngredient = (props) =>{
-    const dataIngredient = useSelector(state => state.constructorReducer.selectedIngredients);
-    const dataBun = useSelector(state => state.constructorReducer.selectedBun);
+export const ShowIngredient = (props: TShowIngredient) =>{
+
+    const dataIngredient = useSelector((state: any) => state.constructorReducer.selectedIngredients);
+    const dataBun = useSelector((state: any) => state.constructorReducer.selectedBun);
 
     const dispatch = useDispatch();
     
-    const countIngredient = (ingredients, bun, id, type) =>{
+    const countIngredient = (ingredients: TIngredientType[], bun: TIngredientType, id: string, type: string) =>{
         let cnt = 0;
         type !== 'bun' ?
-        ingredients.map((ingredient)=>(
+        ingredients.map((ingredient: TIngredientType)=>(
             ingredient._id === id && cnt++
         )) : id === bun._id ?
             cnt = 1 :
@@ -33,7 +35,8 @@ export const ShowIngredient = (props) =>{
                 <img src={props.ingredient.image}/>
                 <div className={mainStyles.price}>
                     <p className={`${mainStyles.priceText} text text_type_digits-default`}>{props.ingredient.price}</p>
-                    <CurrencyIcon/>
+                    {//@ts-ignore
+                    <CurrencyIcon/>}
                 </div>
                 <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{props.ingredient.name}</p>
                 

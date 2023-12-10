@@ -2,16 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import mainStyles from './modal.module.css';
 import {CloseIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
+import { TModalType } from '../../types/types';
 
-const Modal = (props) => {
-  const modalRoot = document.getElementById('portal-root');
-  const navigate = useNavigate();
+const Modal = (props: TModalType) => {
+  const modalRoot = document.getElementById('portal-root') as HTMLElement;
   React.useEffect(() => {
-    const clickEsc = (event) => {
+    const clickEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         props.onClicked()
       }
@@ -30,7 +27,7 @@ const Modal = (props) => {
         <div className={mainStyles.square}>
           <div className={mainStyles.header} >
             <h1>{props.header}</h1>
-            <CloseIcon onClick={()=>{props.onClicked()}}/>
+            <CloseIcon type='primary' onClick={()=>{props.onClicked()}}/>
           </div>
           {props.children}
         </div>
@@ -38,12 +35,6 @@ const Modal = (props) => {
       modalRoot
     );
   
-};
-
-Modal.propTypes = {
-  header: PropTypes.string,
-  onClicked: PropTypes.func,
-  children: PropTypes.node.isRequired,
 };
 
 export default Modal
