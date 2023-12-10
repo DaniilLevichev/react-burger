@@ -13,14 +13,14 @@ export const OrderNumber = () => {
     const numberFeed = parseInt(location.pathname.match(/\d+/)[0]);
     const dispatch = useDispatch();
 
-    React.useEffect(()=> {
+    /*React.useEffect(()=> {
                 
         dispatch({type: FEED_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all'});
         
         return () => {
-            dispatch({type: FEED_CONNECTION_CLOSE});
+            //dispatch({type: FEED_CONNECTION_CLOSE});
         }
-    }, [dispatch])
+    }, [dispatch])*/
     
     const ingredients = useSelector( state => state.ingredients);
     const data: any = useSelector( state => state.ws );
@@ -29,7 +29,7 @@ export const OrderNumber = () => {
     
     let array: Array<TIngredientType> = [];
 
-    objectData.ingredients.map((id: string) => {
+    objectData?.ingredients.map((id: string) => {
         ingredients.ingredients.map((ingredient: TIngredientType) => {
             if (id === ingredient._id) {
                 array.push(ingredient);
@@ -69,5 +69,5 @@ export const OrderNumber = () => {
                 </div>
             </div>
         </div>
-    )
+    )    
 }

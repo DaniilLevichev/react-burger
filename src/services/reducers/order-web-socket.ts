@@ -1,5 +1,5 @@
-import { FEED_CONNECTION_CLOSED, FEED_CONNECTION_ERROR, FEED_CONNECTION_START, FEED_CONNECTION_SUCCESS, FEED_GET_MESSAGE } from "../actions/feed-web-socket";
-import { IWSFeedActions } from "../actions/feed-web-socket";
+import { ORDER_CONNECTION_CLOSED, ORDER_CONNECTION_ERROR, ORDER_CONNECTION_START, ORDER_CONNECTION_SUCCESS, ORDER_GET_MESSAGE } from "../actions/order-web-socket";
+import { IWSOrderActions } from "../actions/order-web-socket";
 
 type TWSState = {
     wsConnected: boolean;
@@ -15,22 +15,22 @@ const initialState = {
     messages: []
 };
   
-  export const wsFeedReducer = (state = initialState, action: IWSFeedActions) => {
+  export const wsOrderReducer = (state = initialState, action: IWSOrderActions) => {
     switch (action.type) {
-        case FEED_CONNECTION_START:
+        case ORDER_CONNECTION_START:
             return {
               ...state,
               connect: true
             };
 
-      case FEED_CONNECTION_SUCCESS:
+      case ORDER_CONNECTION_SUCCESS:
         return {
           ...state,
           error: undefined,
           wsConnected: true
         };
 
-      case FEED_CONNECTION_ERROR:
+      case ORDER_CONNECTION_ERROR:
         return {
           ...state,
           error: action.payload,
@@ -38,14 +38,14 @@ const initialState = {
           messages: []
         };
 
-      case FEED_CONNECTION_CLOSED:
+      case ORDER_CONNECTION_CLOSED:
         return {
           ...state,
           error: undefined,
           wsConnected: false
         };
       
-      case FEED_GET_MESSAGE:
+      case ORDER_GET_MESSAGE:
         return {
           ...state,
           error: undefined,

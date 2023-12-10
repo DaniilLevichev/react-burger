@@ -20,11 +20,10 @@ export const OrderFeed = () => {
         dispatch({type: FEED_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all'});
         
         return () => {
-            if(data.wsConnected) {
-                dispatch({type: FEED_CONNECTION_CLOSE});
-            }
+            console.log(1230);
+            dispatch({type: FEED_CONNECTION_CLOSE});
         }
-    }, [dispatch])
+    }, [])
 
     const ingredients = useSelector( state => state.ingredients);
 

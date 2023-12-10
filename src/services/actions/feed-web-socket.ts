@@ -17,41 +17,31 @@ type TWSResponse = {
     totalToday: number
 }
 
-interface IWsConnsectionStart {
+interface IWsFeedConnsectionStart {
     type: typeof FEED_CONNECTION_START
     payload: string
 }
 
-interface IWsConnsectionSuccess {
+interface IWsFeedConnsectionSuccess {
     type: typeof FEED_CONNECTION_SUCCESS
 }
 
-interface IWsConnsectionError {
+interface IWsFeedConnsectionError {
     type: typeof FEED_CONNECTION_ERROR,
     payload: any
 }
 
-interface IWsConnsectionClosed {
+interface IWsFeedConnsectionClosed {
     type: typeof FEED_CONNECTION_CLOSED
 }
 
-interface IWsConnsectionClose {
+interface IWsFeedConnsectionClose {
     type: typeof FEED_CONNECTION_CLOSE
 }
 
-interface IWsConnsectionMessage {
+interface IWsFeedConnsectionMessage {
     type: typeof FEED_GET_MESSAGE,
     payload: TWSResponse
 }
 
-interface IWsOrderConnsectionStart {
-    type: typeof ORDER_CONNECTION_START
-    payload: string
-}
-
-interface IWsOrderConnsectionClose {
-    type: typeof ORDER_CONNECTION_START
-    payload: string
-}
-
-export type IWSActions = IWsConnsectionStart | IWsConnsectionSuccess | IWsConnsectionError | IWsConnsectionClosed | IWsConnsectionClose | IWsConnsectionMessage;
+export type IWSFeedActions = IWsFeedConnsectionStart | IWsFeedConnsectionSuccess | IWsFeedConnsectionError | IWsFeedConnsectionClosed | IWsFeedConnsectionClose | IWsFeedConnsectionMessage;

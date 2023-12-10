@@ -15,13 +15,14 @@ type TCrtOrder = {
     success: boolean
 }
 
-export const crtOrder = (dataBun: TIngredientType, dataIngredient: TIngredientType[]): AppThunk<Promise<unknown>> => {
+export const crtOrder = (dataBun: TIngredientType, dataIngredient: TIngredientType[], accessToken: string|undefined): AppThunk<Promise<unknown>> => {
     return (dispatch) => {
         const newArray = dataIngredient.map((ingredient) => ingredient._id);
         newArray.push(dataBun._id);
         const ingredients = {ingredients:newArray}
+        console.log(accessToken);
         return (
-            fetch(BASE_URL+'/orders', {
+            fetch(`${BASE_URL}/orders?token=${accessToken}`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -30,6 +31,7 @@ export const crtOrder = (dataBun: TIngredientType, dataIngredient: TIngredientTy
             })
                 .then(checkReponse<TCrtOrder>)
                 .then(data => {
+                    console.log(data);
                     dispatch({type:CREATE_ORDER, data:data})
                 })
                 .catch(error => {

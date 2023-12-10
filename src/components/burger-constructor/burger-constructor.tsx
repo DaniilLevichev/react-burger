@@ -12,6 +12,7 @@ import { PlaceComponent } from './place-component';
 import { crtOrder } from '../../services/actions/index';
 import { useNavigate } from 'react-router';
 import { TIngredientType } from '../../types/types';
+import getCookie from '../../units/get-cookie';
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector( state => state.constructorReducer.selectedBun );
@@ -49,6 +50,8 @@ const BurgerConctructor = () => {
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
     
+    const accessToken: string | undefined = getCookie('accessToken')?.slice(7);
+    
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
@@ -82,7 +85,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 {!!dataPrice && <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>}
                 {!!dataPrice && <div className={mainStyles.priceIcon}><CurrencyIcon type="primary" /></div>}
-                {dataBun && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataBun && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen && dataOrder?.success && 
             <Modal onClicked={setIsModalClose}>

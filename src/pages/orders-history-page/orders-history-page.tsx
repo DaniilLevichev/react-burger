@@ -8,18 +8,27 @@ import { logoutUser } from '../../services/actions/identification';
 import { useState } from 'react';
 import { editUser } from '../../services/actions/identification';
 import { NavLink } from 'react-router-dom';
+import { ORDER_CONNECTION_CLOSE, ORDER_CONNECTION_START } from '../../services/actions/feed-web-socket';
 
 export const OrdersHistoryPage = () => {
 
+    const dispatch = useDispatch();
+
+    const accessToken: string | undefined = getCookie('accessToken')?.slice(7);
+    console.log(accessToken);
+
+    React.useEffect(()=> {
+                
+        dispatch({type: ORDER_CONNECTION_START, payload: `wss://norma.nomoreparties.space/orders?token=${accessToken}`});
+        
+        return () => {
+            dispatch({type:ORDER_CONNECTION_CLOSE});
+        }
+
+    }, [dispatch])
+
     const userName  = useSelector((state: any) => state.user.userData.name);
     const userEmail = useSelector((state: any) => state.user.userData.email);
-    const [name,        setName]        = useState(userName);
-    const [login,       setLogin]       = useState(userEmail);
-    const [password,    setPassword]    = useState('');
-    const [isChanged,     setChanged]   = useState(false);
-    const [nameIcon, setNameIcon]       = useState('EditIcon');
-    const [loginIcon, setLoginIcon]     = useState('EditIcon');
-    const dispatch  = useDispatch();
     const navigate  = useNavigate();
 
     const outUser = () => {

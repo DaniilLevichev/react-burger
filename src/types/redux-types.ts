@@ -10,7 +10,8 @@ import { Action, ActionCreator } from 'redux';
 import { store } from '../services/store';
 import { rootReducer } from '../services/reducers';
 import { useDispatch as dispatchHook, TypedUseSelectorHook, useSelector as selectorHook } from 'react-redux';
-import { IWSActions } from '../services/actions/feed-web-socket';
+import { IWSFeedActions } from '../services/actions/feed-web-socket';
+import { IWSOrderActions } from '../services/actions/order-web-socket';
 
 export type TConstructorReducer = {
     selectedBun: TIngredientType | {},
@@ -90,7 +91,7 @@ interface IEditUser {
 
 export type RootState = ReturnType<typeof store.getState>; 
 
-export type TApplicationActions = IWSActions | IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
+export type TApplicationActions = IWSOrderActions | IWSFeedActions | IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
 
 
 
