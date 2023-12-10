@@ -4,7 +4,7 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 import { useDispatch, useSelector } from '../../types/redux-types';
 import { FEED_CONNECTION_CLOSE, FEED_CONNECTION_CLOSED, FEED_CONNECTION_START } from '../../services/actions/feed-web-socket';
 import { useLocation, useNavigate } from 'react-router';
-import { TIngredientType } from '../../types/types'
+import { TIngredientType, TWSResponseOrder } from '../../types/types'
 
 export const OrderFeed = () => {
 
@@ -20,7 +20,6 @@ export const OrderFeed = () => {
         dispatch({type: FEED_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all'});
         
         return () => {
-            console.log(1230);
             dispatch({type: FEED_CONNECTION_CLOSE});
         }
     }, [])
@@ -31,17 +30,30 @@ export const OrderFeed = () => {
         navigate(`/feed/${numberFeed}`, {state: { background: location }})
     }
 
-    const showFeeds = (feed: any, index: number) => {
+    let doneArray: Array<number> = [];
+    let notDoneArray: Array<number> = [];
+
+    data.messages[data.messages.length - 1]?.orders.map((_feed: TWSResponseOrder) =>{
+        _feed.status === 'done' ? 
+        doneArray.push(_feed.number) :
+        notDoneArray.push(_feed.number)
+    })
+
+    const showFeeds = (feed: TWSResponseOrder, index: number) => {
 
         let array: Array<string> = [];
+        let arrayPrice: Array<number> = [];
 
         feed.ingredients.map((id: string) => {
             ingredients.ingredients.map((ingredient: TIngredientType) => {
                 if(id === ingredient._id) {
                     array.push(ingredient.image_mobile);
+                    arrayPrice.push(ingredient.price);
                 }
             })
         })
+
+        const sum = arrayPrice.reduce((total, num) => total + num, 0);
 
         return(
             <div className={mainStyles.feedContainer} key={index} onClick={()=>{openModal(feed.number)}}>
@@ -65,7 +77,7 @@ export const OrderFeed = () => {
                         ))}
                     </ul>
                     <div className={mainStyles.price}>
-                        <p className="text text_type_digits-default">480</p>
+                        <p className="text text_type_digits-default">{sum}</p>
                         <div className={mainStyles.priceIcon}>
                             <CurrencyIcon type="primary" />
                         </div>
@@ -80,7 +92,7 @@ export const OrderFeed = () => {
         <div className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.header} text text_type_main-large`}>Лента заказов</h1>
             <div className={`${mainStyles.scroll} custom-scroll`}>
-                {data.messages[0]?.orders.map((_feed: any, index: number) =>(
+                {data.messages[data.messages.length - 1]?.orders.map((_feed: TWSResponseOrder, index: number) =>(
                     showFeeds(_feed, index)
                 ))}
             </div>
@@ -89,26 +101,42 @@ export const OrderFeed = () => {
             <div className={mainStyles.numbersTop}>
                 <div className={mainStyles.leftNumbers}>
                     <p className="text text_type_main-medium pb-6">Готовы:</p>
-                    <p className="text text_type_digits-default text_color_inactive pt-2">12345</p>
-                    <p className="text text_type_digits-default text_color_inactive pt-2">12345</p>
-                    <p className="text text_type_digits-default text_color_inactive pt-2">12345</p>
-                    <p className="text text_type_digits-default text_color_inactive pt-2">12345</p>
-                    <p className="text text_type_digits-default text_color_inactive pt-2">12345</p>
+                    <div className={mainStyles.orders}>
+                        <div>
+                            {doneArray.splice(0, 5).map((num: number, index: number) => (
+                                <p className="text text_type_digits-default pt-2" key={index}>{num}</p>
+                            ))}
+                        </div>
+                        <div className='pl-10'>
+                            {doneArray.splice(0, 5).map((num: number, index: number) => (
+                                <p className="text text_type_digits-default pt-2" key={index}>{num}</p>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <div className={mainStyles.rightNumbers}>
                     <p className="text text_type_main-medium pb-6">В работе:</p>
-                    <p className="text text_type_digits-default pt-2">12345</p>
-                    <p className="text text_type_digits-default pt-2">12345</p>
-                    <p className="text text_type_digits-default pt-2">12345</p>
+                    <div className={mainStyles.orders}>
+                        <div>
+                            {notDoneArray.splice(0, 5).map((num: number) => (
+                                <p className="text text_type_digits-default pt-2">{num}</p>
+                            ))}
+                        </div>
+                        <div className='pl-10'>
+                            {notDoneArray.splice(0, 5).map((num: number) => (
+                                <p className="text text_type_digits-default pt-2">{num}</p>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className={mainStyles.numbersMiddle}>
                 <p className="text text_type_main-medium pt-15">Выполнено за всё время</p>
-                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[0]?.total}</p>
+                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[data.messages.length - 1]?.total}</p>
             </div>
             <div>
                 <p className="text text_type_main-medium pt-15">Выполнено за сегодня</p>
-                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[0]?.totalToday}</p>
+                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[data.messages.length - 1]?.totalToday}</p>
             </div>
         </div>
     </>

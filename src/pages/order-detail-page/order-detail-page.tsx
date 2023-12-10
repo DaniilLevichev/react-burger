@@ -4,7 +4,7 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 import { useDispatch, useSelector } from '../../types/redux-types';
 import { FEED_CONNECTION_CLOSE, FEED_CONNECTION_CLOSED, FEED_CONNECTION_START } from '../../services/actions/feed-web-socket';
 import { useLocation } from 'react-router';
-import { TIngredientType } from '../../types/types';
+import { TIngredientType, TWSResponseOrder } from '../../types/types';
 
 export const OrderNumber = () => {
 
@@ -13,19 +13,19 @@ export const OrderNumber = () => {
     const numberFeed = parseInt(location.pathname.match(/\d+/)[0]);
     const dispatch = useDispatch();
 
-    /*React.useEffect(()=> {
+    React.useEffect(()=> {
                 
         dispatch({type: FEED_CONNECTION_START, payload: 'wss://norma.nomoreparties.space/orders/all'});
         
         return () => {
-            //dispatch({type: FEED_CONNECTION_CLOSE});
+            dispatch({type: FEED_CONNECTION_CLOSE});
         }
-    }, [dispatch])*/
+    }, [dispatch])
     
     const ingredients = useSelector( state => state.ingredients);
     const data: any = useSelector( state => state.ws );
 
-    const objectData = data.messages[0]?.orders.find((order: any)=> order.number === numberFeed);
+    const objectData = data.messages[data.messages.length - 1]?.orders.find((order: TWSResponseOrder)=> order.number === numberFeed);
     
     let array: Array<TIngredientType> = [];
 

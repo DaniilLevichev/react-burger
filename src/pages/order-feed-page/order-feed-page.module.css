@@ -150,3 +150,7 @@
     width: 112px;
     height: 56px;
 }
+
+.orders {
+    display: flex;
+}

@@ -51,6 +51,7 @@
 .containerBottom {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 24px;
 }
 
@@ -60,4 +61,35 @@
 
 .priceIcon {
     padding-left: 15px;
+}
+
+.imagesOrder {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-left: 20px;
+}
+
+  
+.imgaesItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    padding: 4px;
+    border-radius: 50%;
+    border: 2px solid #801AB2;
+    background: var(--interface-bg, #131316);
+    margin-left: -20px;
+}
+
+.image {
+    flex-shrink: 0;
+    width: 112px;
+    height: 56px;
 }

@@ -50,7 +50,7 @@ const BurgerConctructor = () => {
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
     
-    const accessToken: string | undefined = getCookie('accessToken')?.slice(7);
+    const accessToken: string | undefined = getCookie('accessToken');
     
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>

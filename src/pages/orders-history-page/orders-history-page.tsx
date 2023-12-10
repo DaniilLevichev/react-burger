@@ -1,21 +1,21 @@
 import React from 'react';
-import { PasswordInput, EmailInput, Input, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { PasswordInput, EmailInput, Input, Button, CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './orders-history-page.module.css';
 import { useDispatch, useSelector} from '../../types/redux-types';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import getCookie from '../../units/get-cookie';
 import { logoutUser } from '../../services/actions/identification';
 import { useState } from 'react';
 import { editUser } from '../../services/actions/identification';
 import { NavLink } from 'react-router-dom';
 import { ORDER_CONNECTION_CLOSE, ORDER_CONNECTION_START } from '../../services/actions/feed-web-socket';
+import { TIngredientType, TWSResponse, TWSResponseOrder } from '../../types/types';
 
 export const OrdersHistoryPage = () => {
 
     const dispatch = useDispatch();
 
     const accessToken: string | undefined = getCookie('accessToken')?.slice(7);
-    console.log(accessToken);
 
     React.useEffect(()=> {
                 
@@ -27,8 +27,10 @@ export const OrdersHistoryPage = () => {
 
     }, [dispatch])
 
-    const userName  = useSelector((state: any) => state.user.userData.name);
-    const userEmail = useSelector((state: any) => state.user.userData.email);
+    const location = useLocation();
+
+    const data = useSelector((state: any) => state.wsOrder);
+    const ingredients = useSelector( state => state.ingredients);
     const navigate  = useNavigate();
 
     const outUser = () => {
@@ -39,8 +41,59 @@ export const OrdersHistoryPage = () => {
         navigate('/login');
     }
 
+    const showOrders = (order: TWSResponseOrder, index: number) => {
+
+        let array: Array<string> = [];
+        let arrayPrice: Array<number> = [];
+
+        order.ingredients.map((id: string) => {
+            ingredients.ingredients.map((ingredient: TIngredientType) => {
+                if(id === ingredient._id) {
+                    array.push(ingredient.image_mobile);
+                    arrayPrice.push(ingredient.price);
+                }
+            })
+        })
+
+        const openModal = (numberFeed: number) => {
+            navigate(`/feed/${numberFeed}`, {state: { background: location }})
+        }
+        
+        const sum = arrayPrice.reduce((total, num) => total + num, 0);
+
+        return (
+            <div className={mainStyles.feedContainer} key={index} onClick={()=>{openModal(order.number)}}>
+                <div className={mainStyles.containerTop}>
+                    <p className="text text_type_main-default">#{order.number}</p>
+                    <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(order.createdAt)} />
+                </div>
+                <div className={mainStyles.containerMiddle}>
+                    <p className="text text_type_main-medium">{order.name}</p>
+                </div>
+                <div className={mainStyles.containerBottom}>
+                    <ul className={mainStyles.imagesOrder}>
+                        {array.slice(0, 6).map((arr, index) => (
+                            <li className={mainStyles.imgaesItem} key={index}>
+                                {index === 0 && array.length > 5 ? (
+                                    <span key={index}>+{array.length - 5}</span>
+                                ) : (                                     
+                                    <img className={mainStyles.image} src={arr} alt={`Image ${index}`} />
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                    <div className={mainStyles.price}>
+                        <p className="text text_type_digits-default">{sum}</p>
+                        <div className={mainStyles.priceIcon}>
+                            <CurrencyIcon type="primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
-        userName ? 
         <div className={mainStyles.mainDiv}>
             <div className={mainStyles.leftDiv}>
                 <div className={mainStyles.navPanel}>
@@ -54,98 +107,10 @@ export const OrdersHistoryPage = () => {
                 </div>
             </div>
             <div className={`${mainStyles.scroll} custom-scroll`}>
-                <div className={mainStyles.feedContainer}>
-                    <div className={mainStyles.containerTop}>
-                        <p className="text text_type_main-default">#034535</p>
-                        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20</p>
-                    </div>
-                    <div className={mainStyles.containerMiddle}>
-                        <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                    </div>
-                    <div className={mainStyles.containerBottom}>
-                        <p className="text text_type_main-default">Тут картинки</p>
-                        <div className={mainStyles.price}>
-                            <p className="text text_type_digits-default">480</p>
-                            <div className={mainStyles.priceIcon}>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={mainStyles.feedContainer}>
-                    <div className={mainStyles.containerTop}>
-                        <p className="text text_type_main-default">#034535</p>
-                        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20</p>
-                    </div>
-                    <div className={mainStyles.containerMiddle}>
-                        <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                    </div>
-                    <div className={mainStyles.containerBottom}>
-                        <p className="text text_type_main-default">Тут картинки</p>
-                        <div className={mainStyles.price}>
-                            <p className="text text_type_digits-default">480</p>
-                            <div className={mainStyles.priceIcon}>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={mainStyles.feedContainer}>
-                    <div className={mainStyles.containerTop}>
-                        <p className="text text_type_main-default">#034535</p>
-                        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20</p>
-                    </div>
-                    <div className={mainStyles.containerMiddle}>
-                        <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                    </div>
-                    <div className={mainStyles.containerBottom}>
-                        <p className="text text_type_main-default">Тут картинки</p>
-                        <div className={mainStyles.price}>
-                            <p className="text text_type_digits-default">480</p>
-                            <div className={mainStyles.priceIcon}>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={mainStyles.feedContainer}>
-                    <div className={mainStyles.containerTop}>
-                        <p className="text text_type_main-default">#034535</p>
-                        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20</p>
-                    </div>
-                    <div className={mainStyles.containerMiddle}>
-                        <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                    </div>
-                    <div className={mainStyles.containerBottom}>
-                        <p className="text text_type_main-default">Тут картинки</p>
-                        <div className={mainStyles.price}>
-                            <p className="text text_type_digits-default">480</p>
-                            <div className={mainStyles.priceIcon}>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={mainStyles.feedContainer}>
-                    <div className={mainStyles.containerTop}>
-                        <p className="text text_type_main-default">#034535</p>
-                        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20</p>
-                    </div>
-                    <div className={mainStyles.containerMiddle}>
-                        <p className="text text_type_main-medium">Death Star Starship Main бургер</p>
-                    </div>
-                    <div className={mainStyles.containerBottom}>
-                        <p className="text text_type_main-default">Тут картинки</p>
-                        <div className={mainStyles.price}>
-                            <p className="text text_type_digits-default">480</p>
-                            <div className={mainStyles.priceIcon}>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {data.messages[data.messages.length - 1]?.orders.map((order: TWSResponseOrder, index: number) => (
+                    showOrders(order, index)
+                ))}
             </div>
-        </div> :
-        null
+        </div>
     )
 }
