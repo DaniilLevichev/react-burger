@@ -1,10 +1,16 @@
+import { TApplicationActions } from "../../types/redux-types";
+import { TIngredientType } from "../../types/types";
 import { CHECK_DETAIL, DELETE_DETAIL } from "../actions/ingredient-detail";
 
-const initialState ={
-    checkedIngredient: {}
+export type TDetailReducer = {
+    checkedIngredient: TIngredientType | null
 }
 
-export const detailReducer = (state = initialState, action) => {
+const initialState: TDetailReducer = {
+    checkedIngredient: null
+}
+
+export const detailReducer = (state = initialState, action: TApplicationActions): TDetailReducer => {
     switch(action.type) {
         case(CHECK_DETAIL): {
             return {...state, checkedIngredient: action.data}

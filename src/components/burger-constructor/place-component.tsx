@@ -1,6 +1,6 @@
 import {ConstructorElement, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './burger-constructor.module.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { DELETE_INGREDIENT } from '../../services/actions/constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import React from 'react';

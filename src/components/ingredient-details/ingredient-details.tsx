@@ -1,13 +1,12 @@
 import mainStyles from './ingredient-details.module.css';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { TIngredientType } from '../../types/types';
 
 const IngredientDetails = () => {
     
     const params = useParams();
-    const ingredients = useSelector((state: any) => state.ingredients.ingredients);
+    const ingredients = useSelector( state => state.ingredients.ingredients);
     const ingredient = ingredients.find((ingredient: TIngredientType) => ingredient._id === params.id);
     
     return (

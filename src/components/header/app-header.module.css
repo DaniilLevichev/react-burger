@@ -5,12 +5,12 @@
 .section{
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .extremeDiv{
     padding:0px 100px;
     display: flex;
-    flex-basis: 35%;
 }
 
 .links{

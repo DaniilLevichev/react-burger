@@ -3,7 +3,8 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon  } from '@ya.praktik
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import mainStyles from './burger-constructor.module.css'
-import { useDispatch, useSelector } from 'react-redux';
+import {  } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { useDrop } from "react-dnd";
 import { PUT_BUN, PUT_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../../services/actions/constructor';   
 import { v4 as uuidv4 } from 'uuid';
@@ -11,13 +12,15 @@ import { PlaceComponent } from './place-component';
 import { crtOrder } from '../../services/actions/index';
 import { useNavigate } from 'react-router';
 import { TIngredientType } from '../../types/types';
+import getCookie from '../../units/get-cookie';
+import OrderDetailsLoading from '../order-details/order-details-loading';
 
 const BurgerConctructor = () => {
-    const dataBun        = useSelector((state: any) => state.constructorReducer.selectedBun);
-    const dataIngredient = useSelector((state: any) => state.constructorReducer.selectedIngredients);
-    const dataPrice      = useSelector((state: any) => state.constructorReducer.price);
-    const dataOrder      = useSelector((state: any) => state.order.request);
-    const dataUser       = useSelector((state: any) => state.user.userData.name);
+    const dataBun        = useSelector( state => state.constructorReducer.selectedBun );
+    const dataIngredient = useSelector( state => state.constructorReducer.selectedIngredients);
+    const dataPrice      = useSelector( state => state.constructorReducer.price);
+    const dataOrder      = useSelector( state => state.order.request);
+    const dataUser       = useSelector( state => state.user.userData);
     const dispatch       = useDispatch();
     const navigate       = useNavigate();
 
@@ -47,20 +50,22 @@ const BurgerConctructor = () => {
         newComponents.splice(hoverIndex, 0, dragComponent);
         dispatch({type:UPDATE_COMPONENT_ORDER, data: newComponents})
     };
-
+    
+    const accessToken: string | undefined = getCookie('accessToken');
+    
     return (      
         <div ref={dropTarget} className={mainStyles.mainDiv}>
             <div className={mainStyles.bunDiv}>
-                {dataPrice ? <ConstructorElement
+                {dataBun ? <ConstructorElement
                     type='top'
                     isLocked={true}
-                    text={`${dataBun.name} верх`}
-                    price={dataBun.price}
-                    thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
+                    text={`${dataBun?.name} верх`}
+                    price={dataBun?.price}
+                    thumbnail={dataBun?.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
             </div>
 
             <div className={`${mainStyles.constrCompnent} custom-scroll`}>
-                {dataPrice ? dataIngredient.map((component: TIngredientType, index: number) =>(
+                {dataPrice ? dataIngredient.map((component, index) =>(
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
@@ -71,22 +76,26 @@ const BurgerConctructor = () => {
             </div>   
             
             <div className={mainStyles.bunDiv}>
-                {dataPrice ? <ConstructorElement
+                {dataBun ? <ConstructorElement
                     type='bottom'
                     isLocked={true}
-                    text={`${dataBun.name} низ`}
-                    price={dataBun.price}
-                    thumbnail={dataBun.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
+                    text={`${dataBun?.name} низ`}
+                    price={dataBun?.price}
+                    thumbnail={dataBun?.image_mobile}/> : <h1 className='text text_type_main-default'>Добавьте булку</h1>}
             </div>
             <div className={mainStyles.result}> 
-                <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>
-                {dataPrice && <CurrencyIcon type="primary" />}
-                {dataPrice && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch<any>(crtOrder(dataBun, dataIngredient)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {!!dataPrice && <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>}
+                {!!dataPrice && <div className={mainStyles.priceIcon}><CurrencyIcon type="primary" /></div>}
+                {dataBun && <Button onClick={() => {if (!dataUser) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
-            {isModalOpen && dataOrder.success && 
-            <Modal onClicked={setIsModalClose}>
-                <OrderDetails orderNumber={dataOrder.order.number}/>
-            </Modal>}
+            {isModalOpen ? dataOrder?.success ?
+                <Modal onClicked={setIsModalClose}>
+                    <OrderDetails orderNumber={dataOrder?.order.number}/>
+                </Modal> :
+                <Modal onClicked={setIsModalClose}>
+                    <OrderDetailsLoading/>
+                </Modal> : null              
+            }
         </div>
     );
 }

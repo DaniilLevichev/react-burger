@@ -3,15 +3,6 @@
     display: inline-block;
 }
 
-.rightDiv {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    justify-content: center;
-    align-items: center;    
-}
-
 .leftDiv {
     position: absolute;
     top: 53%;
@@ -23,44 +14,14 @@
     text-decoration: none;
 }
 
-.linkText {
-    display: flex;
-    justify-content: center;
-    padding: 0 0 16px 0;
-}
-
-.header {
-    text-align: center;
-    padding: 0 0 24px 0;
-}
-
-.input {
-    display: flex;
-    padding: 0 0 24px 0;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
-    padding: 0 0 80px 0;
-}
-
-.link {
-    text-decoration: none;
-}
-
 .navPanel{
     cursor: pointer;
     padding: 20px 0;
 }
 
-.buttons{
-    padding: 0 80px;
-}
-
 .scroll {
     overflow: auto;
-    max-height: 916px;
+    max-height: 80%;
     background-color: #131316;
     position: absolute;
     top: 55%;
@@ -90,6 +51,7 @@
 .containerBottom {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 24px;
 }
 
@@ -99,4 +61,35 @@
 
 .priceIcon {
     padding-left: 15px;
+}
+
+.imagesOrder {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-left: 20px;
+}
+
+  
+.imgaesItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    padding: 4px;
+    border-radius: 50%;
+    border: 2px solid #801AB2;
+    background: var(--interface-bg, #131316);
+    margin-left: -20px;
+}
+
+.image {
+    flex-shrink: 0;
+    width: 112px;
+    height: 56px;
 }

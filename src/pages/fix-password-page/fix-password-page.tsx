@@ -6,7 +6,7 @@ import checkReponse from '../../units/check-response';
 import { useNavigate } from 'react-router';
 import { fixPassword } from '../../services/actions/identification';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../types/redux-types';
 
 export const FixPasswordPage = () => {
 
@@ -22,7 +22,6 @@ export const FixPasswordPage = () => {
     const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(email) {
-            //@ts-ignore
             dispatch(fixPassword(email));
             navigate('/reset-password');
         }

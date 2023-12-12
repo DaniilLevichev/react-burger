@@ -1,7 +1,7 @@
 import React from 'react';
 import mainStyles from './burger-ingredients.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from '../../types/redux-types';
 import { useDrag } from "react-dnd";
 import { ShowIngredient } from './show-ingredient';
 import { useInView } from 'react-intersection-observer';
@@ -14,7 +14,7 @@ import { TIngredientType } from '../../types/types'
 
 const BurgerIngredients = () => {
 
-    const data = useSelector((state: any) => state.ingredients);
+    const data = useSelector( state => state.ingredients);
     const [isModalOpen, setIsModalOpen]   = React.useState(false);
     const [ingrState,   setIngredient]    = React.useState({});
 
@@ -68,19 +68,19 @@ const BurgerIngredients = () => {
             <div className={`${mainStyles.ingredientsDiv} custom-scroll`}>
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
                 <div ref={refSauce} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='sauce'/>
                     ))}
                 </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
                 <div ref={refMain} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
                     ))}
                 </div>
