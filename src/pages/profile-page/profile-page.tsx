@@ -1,7 +1,7 @@
 import React from 'react';
 import { PasswordInput, EmailInput, Input, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import mainStyles from './profile-page.module.css';
-import { useDispatch, useSelector} from '../../types/redux-types';
+import { TUserData, useDispatch, useSelector} from '../../types/redux-types';
 import { useNavigate } from 'react-router';
 import getCookie from '../../units/get-cookie';
 import { logoutUser } from '../../services/actions/identification';
@@ -11,8 +11,8 @@ import { NavLink } from 'react-router-dom';
 
 export const ProfilePage = () => {
 
-    const userName  = useSelector((state: any) => state.user.userData.name);
-    const userEmail = useSelector((state: any) => state.user.userData.email);
+    const userName  = useSelector(state => state.user.userData?.name);
+    const userEmail = useSelector(state => state.user.userData?.email);
     const [name,        setName]        = useState(userName);
     const [login,       setLogin]       = useState(userEmail);
     const [password,    setPassword]    = useState('');
@@ -25,8 +25,9 @@ export const ProfilePage = () => {
     const outUser = () => {
         const accessToken = getCookie('accessToken');
         const refreshToken  = getCookie('refreshToken');
-        //@ts-ignore
-        dispatch(logoutUser(accessToken, refreshToken));
+        if ( accessToken && refreshToken) {
+            dispatch(logoutUser(accessToken, refreshToken));
+        }
         navigate('/login');
     }
 
@@ -54,14 +55,16 @@ export const ProfilePage = () => {
 
     const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const userData = {
+        const userData: TUserData = {
             "name": name,
             "login": login,
+            "email": login,
             "password": password
         }
         const accessToken = getCookie('accessToken');
-        //@ts-ignore
-        dispatch(editUser(accessToken, userData));
+        if ( accessToken && userData) {
+            dispatch(editUser(accessToken, userData));
+        }
     }
 
     return (
@@ -87,9 +90,8 @@ export const ProfilePage = () => {
                         error={false}
                         errorText={'Ошибка'}
                         size={'default'}
-                        //@ts-ignore
-                        icon={nameIcon}
-                        value={name}
+                        icon={'EditIcon'}
+                        value={name ? name : ''}
                         onChange = {e => onChange(e)}
                     />
                 </div>
@@ -97,9 +99,8 @@ export const ProfilePage = () => {
                     <EmailInput
                         name={'email'}
                         placeholder={'Логин'}
-                        //@ts-ignore
-                        icon={loginIcon}
-                        value={login}
+                        value={login ? login : ''}
+                        isIcon={true}
                         onChange = {e => onChange(e)}
                     />
                 </div>
@@ -107,7 +108,6 @@ export const ProfilePage = () => {
                     <PasswordInput
                         name={'password'}
                         placeholder={'Пароль'}
-                        //@ts-ignore
                         icon="EditIcon"
                         value={password}
                         onChange = {e => onChange(e)}

@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+import { TWSResponseOrders } from "../../types/types";
 
 export const FEED_CONNECTION_START: 'FEED_CONNECTION_START' = 'FEED_CONNECTION_START';
 export const FEED_CONNECTION_SUCCESS: 'FEED_CONNECTION_SUCCESS' = 'FEED_CONNECTION_SUCCESS'; 
@@ -41,7 +42,7 @@ interface IWsFeedConnsectionClose {
 
 interface IWsFeedConnsectionMessage {
     type: typeof FEED_GET_MESSAGE,
-    payload: TWSResponse
+    payload: TWSResponseOrders
 }
 
 export type IWSFeedActions = IWsFeedConnsectionStart | IWsFeedConnsectionSuccess | IWsFeedConnsectionError | IWsFeedConnsectionClosed | IWsFeedConnsectionClose | IWsFeedConnsectionMessage;

@@ -20,13 +20,15 @@ function setCookie(name: string, value: any, props: TSetCookie = {}) {
     value = encodeURIComponent(value);
     let updatedCookie = name + "=" + value;
     for (const propName in props) {
-      updatedCookie += "; " + propName;
-      //@ts-ignore
-      const propValue = props[propName];
-      if (propValue !== true) {
-        updatedCookie += "=" + propValue;
+      if (Object.prototype.hasOwnProperty.call(props, propName)) {
+          updatedCookie += "; " + propName;
+          const propValue = props[propName as keyof TSetCookie];
+          if (propValue !== true) {
+              updatedCookie += "=" + propValue;
+          }
       }
-    }
+  }
+  
     document.cookie = updatedCookie;
 }
 

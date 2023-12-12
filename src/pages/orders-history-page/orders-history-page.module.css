@@ -21,7 +21,7 @@
 
 .scroll {
     overflow: auto;
-    max-height: 916px;
+    max-height: 80%;
     background-color: #131316;
     position: absolute;
     top: 55%;

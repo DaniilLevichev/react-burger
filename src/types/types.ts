@@ -12,6 +12,9 @@ export type TIngredientType = {
     image_large:    string;
     __v:            number;
     id?:            string;
+    count?:         number;
+    lastPrice?:     number;
+    totalPrice:     number;
 }
 
 export type TPlaceComponent = {
@@ -57,7 +60,10 @@ export type TWSResponseOrder = {
 }
     
 export type TWSResponseOrders = {
-    orders: TWSResponseOrder;
+    orders: Array<TWSResponseOrder>;
+    success: boolean;
+    total: number;
+    totalToday: number;
 }
 
 export type TWSResponse = {

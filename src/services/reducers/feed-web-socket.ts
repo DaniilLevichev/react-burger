@@ -1,21 +1,22 @@
+import { TWSResponseOrders } from "../../types/types";
 import { FEED_CONNECTION_CLOSED, FEED_CONNECTION_ERROR, FEED_CONNECTION_START, FEED_CONNECTION_SUCCESS, FEED_GET_MESSAGE } from "../actions/feed-web-socket";
 import { IWSFeedActions } from "../actions/feed-web-socket";
 
-type TWSState = {
+export type TWSState = {
     wsConnected: boolean;
-    messages: any;
+    messages: TWSResponseOrders | null;
     connect: boolean;
   
     error?: Event;
 }
   
-const initialState = {
+const initialState: TWSState = {
     connect: false,
     wsConnected: false,
-    messages: []
+    messages: null
 };
   
-  export const wsFeedReducer = (state = initialState, action: IWSFeedActions) => {
+  export const wsFeedReducer = (state = initialState, action: IWSFeedActions): TWSState => {
     switch (action.type) {
         case FEED_CONNECTION_START:
             return {
@@ -35,7 +36,7 @@ const initialState = {
           ...state,
           error: action.payload,
           wsConnected: false,
-          messages: []
+          messages: null
         };
 
       case FEED_CONNECTION_CLOSED:
@@ -49,7 +50,7 @@ const initialState = {
         return {
           ...state,
           error: undefined,
-          messages: [...state.messages, action.payload]
+          messages: action.payload
         };
       default:
         return state;

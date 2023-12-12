@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+import { TWSResponseOrders } from "../../types/types";
 
 export const ORDER_CONNECTION_START:    'ORDER_CONNECTION_START'    = 'ORDER_CONNECTION_START';
 export const ORDER_CONNECTION_CLOSE:    'ORDER_CONNECTION_CLOSE'    = 'ORDER_CONNECTION_CLOSE';
@@ -39,7 +40,7 @@ interface IWsOrderConnsectionClose {
 
 interface IWsOrderConnsectionMessage {
     type: typeof ORDER_GET_MESSAGE,
-    payload: TWSResponse
+    payload: TWSResponseOrders
 }
 
 

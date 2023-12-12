@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from 
 import mainStyles from './app.module.css';
 import AppHeader from '../header/app-header';
 import MainPage from '../../pages/main-page';
-import { useDispatch } from 'react-redux';
 import { getData } from '../../services/actions/index';
 import { AutorizationPage } from '../../pages/authorization-page/authorization-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
@@ -18,8 +17,7 @@ import Modal from '../modal/modal';
 import { OrderFeed } from '../../pages/order-feed-page/order-feed-page';
 import { OrderNumber } from '../../pages/order-detail-page/order-detail-page';
 import { OrdersHistoryPage } from '../../pages/orders-history-page/orders-history-page';
-import { FEED_CONNECTION_START } from '../../services/actions/feed-web-socket';
-import OrderDetails from '../order-details/order-details';
+import { useDispatch } from '../../types/redux-types';
 
 function App() {
   const location = useLocation();
@@ -28,12 +26,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    //@ts-ignore
     dispatch(getData());
-    const accessToken: string | undefined = getCookie('accessToken');
-    const refreshToken: string | undefined = getCookie('refreshToken');
+    const accessToken = getCookie('accessToken');
+    const refreshToken = getCookie('refreshToken');
     if (accessToken && refreshToken) {
-        //@ts-ignore
         dispatch(checkUser(accessToken, refreshToken));
     }
   });
@@ -53,6 +49,7 @@ function App() {
         <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
         <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
         <Route path='/profile/orders'  element={<ProtectedRouteUnAuthorized element={<OrdersHistoryPage/>}/>}/>
+        <Route path='/profile/orders/:number'  element={<ProtectedRouteUnAuthorized element={<OrderNumber/>}/>}/>
         <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
         <Route path='/feed/:number'    element={<OrderNumber/>}/>
         <Route path='/feed'            element={<OrderFeed/>}/>
@@ -61,6 +58,7 @@ function App() {
       <Routes>
         <Route path='/ingredients/:id' element={<Modal onClicked={handleClose} header='Детали ингридиента'><IngredientDetails/></Modal>}/>
         <Route path='/feed/:number' element={<Modal onClicked={handleClose} header=''><OrderNumber/></Modal>}/>
+        <Route path='/profile/orders/:number' element={<Modal onClicked={handleClose} header=''><OrderNumber/></Modal>}/>
       </Routes>}
     </div>
   );

@@ -2,8 +2,8 @@ import { TApplicationActions } from "../../types/redux-types";
 import { CHECK_USER, REGISTRY_USER, LOGOUT_USER, LOGIN_USER, FIX_PASSWORD, RESET_PASSWORD, EDIT_USER } from "../actions/identification";
 
 type TUserData = {
-    email: string,
-    name: string
+    email?: string,
+    name?: string
 } 
 
 type TUserReducer = {

@@ -32,7 +32,6 @@ export const RegisterPage = () => {
             "password": password,
             "name": name
         };
-        //@ts-ignore
         dispatch(createUser(data));
         navigate('/');
         

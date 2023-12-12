@@ -19,7 +19,7 @@ export default function AppHeader () {
                             <p className={`${mainStyles.text} text text_type_main-default`}>Лента заказов</p>
                         </NavLink>
                     </div>
-                    <div className={mainStyles.logo}>
+                    <div className={mainStyles.logo} >
                         <Logo/>
                     </div>
                     <div className={mainStyles.extremeDiv}>

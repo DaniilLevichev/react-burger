@@ -16,7 +16,7 @@ export const ShowIngredient = (props: TShowIngredient) =>{
     const countIngredient = (ingredients: TIngredientType[], bun: TIngredientType, id: string, type: string) =>{
         let cnt = 0;
         type !== 'bun' ?
-        ingredients?.map((ingredient: TIngredientType)=>(
+        ingredients.map((ingredient)=>(
             ingredient._id === id && cnt++
         )) : id === bun._id ?
             cnt = 1 :
@@ -36,8 +36,7 @@ export const ShowIngredient = (props: TShowIngredient) =>{
                 <img src={props.ingredient.image}/>
                 <div className={mainStyles.price}>
                     <p className={`${mainStyles.priceText} text text_type_digits-default`}>{props.ingredient.price}</p>
-                    {//@ts-ignore
-                    <CurrencyIcon/>}
+                    <CurrencyIcon type="primary"/>
                 </div>
                 <p className={`${mainStyles.ingredientPad} text text_type_main-default`}>{props.ingredient?.name}</p>
                 

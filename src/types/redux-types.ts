@@ -21,8 +21,10 @@ export type TConstructorReducer = {
 }
 
 export type TUserData = {
-    email: string,
-    name: string;
+    email: string | undefined;
+    name: string | undefined;
+    login?: string;
+    password?: string;
 }
 
 interface IPutBun {

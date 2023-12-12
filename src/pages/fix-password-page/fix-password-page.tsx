@@ -22,7 +22,6 @@ export const FixPasswordPage = () => {
     const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(email) {
-            //@ts-ignore
             dispatch(fixPassword(email));
             navigate('/reset-password');
         }

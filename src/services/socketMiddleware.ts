@@ -3,7 +3,7 @@ import type { Middleware, MiddlewareAPI } from 'redux';
 import { AppDispatch, RootState, TApplicationActions } from '../types/redux-types';
 import { useDispatch } from '../types/redux-types';
 
-export const socketMiddleware = (Actions: any): Middleware => {
+export const socketMiddleware = (actions: any): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
@@ -17,7 +17,7 @@ export const socketMiddleware = (Actions: any): Middleware => {
             onClose,
             onMessage,
             onError,
-        } = Actions;
+        } = actions;
         
         if (type === wsStart ) {
             socket = new WebSocket(payload)
@@ -39,9 +39,6 @@ export const socketMiddleware = (Actions: any): Middleware => {
             socket.onerror = event => {
                 dispatch({ type: onError})
             }
-
-            
-            
         }
         
         if ( type === wsClose) {

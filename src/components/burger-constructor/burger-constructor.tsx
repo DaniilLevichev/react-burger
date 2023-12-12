@@ -13,6 +13,7 @@ import { crtOrder } from '../../services/actions/index';
 import { useNavigate } from 'react-router';
 import { TIngredientType } from '../../types/types';
 import getCookie from '../../units/get-cookie';
+import OrderDetailsLoading from '../order-details/order-details-loading';
 
 const BurgerConctructor = () => {
     const dataBun        = useSelector( state => state.constructorReducer.selectedBun );
@@ -64,7 +65,7 @@ const BurgerConctructor = () => {
             </div>
 
             <div className={`${mainStyles.constrCompnent} custom-scroll`}>
-                {dataPrice ? dataIngredient.map((component: TIngredientType, index: number) =>(
+                {dataPrice ? dataIngredient.map((component, index) =>(
                     <PlaceComponent 
                     component={component} 
                     id={component.id}
@@ -85,12 +86,16 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 {!!dataPrice && <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>}
                 {!!dataPrice && <div className={mainStyles.priceIcon}><CurrencyIcon type="primary" /></div>}
-                {dataBun && <Button onClick={() => {if (dataUser === undefined) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataBun && <Button onClick={() => {if (!dataUser) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
-            {isModalOpen && dataOrder?.success && 
-            <Modal onClicked={setIsModalClose}>
-                <OrderDetails orderNumber={dataOrder.order.number}/>
-            </Modal>}
+            {isModalOpen ? dataOrder?.success ?
+                <Modal onClicked={setIsModalClose}>
+                    <OrderDetails orderNumber={dataOrder?.order.number}/>
+                </Modal> :
+                <Modal onClicked={setIsModalClose}>
+                    <OrderDetailsLoading/>
+                </Modal> : null              
+            }
         </div>
     );
 }

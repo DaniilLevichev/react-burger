@@ -25,7 +25,6 @@ export const AutorizationPage = () => {
     const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const from = location.state?.from || '/';
-        //@ts-ignore
         dispatch(authorizationUser(login, password)); 
         navigate(from);
     }

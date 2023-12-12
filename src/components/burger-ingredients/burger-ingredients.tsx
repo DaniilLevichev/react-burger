@@ -68,19 +68,19 @@ const BurgerIngredients = () => {
             <div className={`${mainStyles.ingredientsDiv} custom-scroll`}>
                 <h2 id='Булки' className={`${mainStyles.headers} text text_type_main-medium`}>Булки</h2>
                 <div ref={refBun} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='bun'/>
                     ))}
                 </div>
                 <h2 id ='Соусы' className={`${mainStyles.headers} text text_type_main-medium`}>Соусы</h2>
                 <div ref={refSauce} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='sauce'/>
                     ))}
                 </div>
                 <h2 id='Начинки' className={`${mainStyles.headers} text text_type_main-medium`}>Начинки</h2>
                 <div ref={refMain} className={mainStyles.ingredients}> 
-                    {data.ingredients.map((ingredient: TIngredientType, index: number)=>(
+                    {data.ingredients.map((ingredient)=>(
                         <ShowIngredient openModal={openModal} setIngredient={setIngredient} key={ingredient._id} ingredient={ingredient} type='main'/>
                     ))}
                 </div>

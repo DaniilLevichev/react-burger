@@ -32,7 +32,6 @@ export const ResetPasswordPage = () => {
     const confirm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(password && token ) {
-            //@ts-ignore
             dispatch(resetPassword(password, token));
             navigate('/login');
         }

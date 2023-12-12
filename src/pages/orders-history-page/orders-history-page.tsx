@@ -29,16 +29,17 @@ export const OrdersHistoryPage = () => {
 
     const location = useLocation();
 
-    const data = useSelector((state: any) => state.wsOrder);
+    const data = useSelector(state => state.wsOrder);
     const ingredients = useSelector( state => state.ingredients);
     const navigate  = useNavigate();
 
     const outUser = () => {
         const accessToken = getCookie('accessToken');
         const refreshToken  = getCookie('refreshToken');
-        //@ts-ignore
-        dispatch(logoutUser(accessToken, refreshToken));
-        navigate('/login');
+        if (accessToken && refreshToken) {
+            dispatch(logoutUser(accessToken, refreshToken));
+            navigate('/login');
+        }
     }
 
     const showOrders = (order: TWSResponseOrder, index: number) => {
@@ -46,8 +47,8 @@ export const OrdersHistoryPage = () => {
         let array: Array<string> = [];
         let arrayPrice: Array<number> = [];
 
-        order.ingredients.map((id: string) => {
-            ingredients.ingredients.map((ingredient: TIngredientType) => {
+        order.ingredients.map((id) => {
+            ingredients.ingredients.map((ingredient) => {
                 if(id === ingredient._id) {
                     array.push(ingredient.image_mobile);
                     arrayPrice.push(ingredient.price);
@@ -56,7 +57,7 @@ export const OrdersHistoryPage = () => {
         })
 
         const openModal = (numberFeed: number) => {
-            navigate(`/feed/${numberFeed}`, {state: { background: location }})
+            navigate(`/profile/orders/${numberFeed}`, {state: { background: location }})
         }
         
         const sum = arrayPrice.reduce((total, num) => total + num, 0);
@@ -92,25 +93,29 @@ export const OrdersHistoryPage = () => {
             </div>
         )
     }
-
-    return (
-        <div className={mainStyles.mainDiv}>
-            <div className={mainStyles.leftDiv}>
-                <div className={mainStyles.navPanel}>
-                    <NavLink to='/profile' className={`${mainStyles.link} text text_type_main-large text_color_inactive`}>Профиль</NavLink>
+    
+    if (data.messages?.orders) {
+        return (
+            <div className={mainStyles.mainDiv}>
+                <div className={mainStyles.leftDiv}>
+                    <div className={mainStyles.navPanel}>
+                        <NavLink to='/profile' className={`${mainStyles.link} text text_type_main-large text_color_inactive`}>Профиль</NavLink>
+                    </div>
+                    <div className={mainStyles.navPanel}>
+                        <a className="text text_type_main-large">История заказов</a>
+                    </div>
+                    <div className={mainStyles.navPanel}>
+                        <a onClick={()=>{outUser()}}className="text text_type_main-large text_color_inactive">Выход</a>
+                    </div>
                 </div>
-                <div className={mainStyles.navPanel}>
-                    <a className="text text_type_main-large">История заказов</a>
-                </div>
-                <div className={mainStyles.navPanel}>
-                    <a onClick={()=>{outUser()}}className="text text_type_main-large text_color_inactive">Выход</a>
+                <div className={`${mainStyles.scroll} custom-scroll`}>
+                    {data.messages?.orders.map((order, index) => (
+                        showOrders(order, index)
+                    ))}
                 </div>
             </div>
-            <div className={`${mainStyles.scroll} custom-scroll`}>
-                {data.messages[data.messages.length - 1]?.orders.map((order: TWSResponseOrder, index: number) => (
-                    showOrders(order, index)
-                ))}
-            </div>
-        </div>
-    )
+        )
+    } else {
+        return (<></>)
+    }
 }

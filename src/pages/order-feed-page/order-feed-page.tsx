@@ -13,7 +13,7 @@ export const OrderFeed = () => {
     
     const dispatch = useDispatch();
 
-    const data: any = useSelector( state => state.ws );
+    const data = useSelector( state => state.ws );
 
     React.useEffect(()=> {
                 
@@ -33,7 +33,7 @@ export const OrderFeed = () => {
     let doneArray: Array<number> = [];
     let notDoneArray: Array<number> = [];
 
-    data.messages[data.messages.length - 1]?.orders.map((_feed: TWSResponseOrder) =>{
+    data.messages?.orders.map((_feed) =>{
         _feed.status === 'done' ? 
         doneArray.push(_feed.number) :
         notDoneArray.push(_feed.number)
@@ -44,8 +44,8 @@ export const OrderFeed = () => {
         let array: Array<string> = [];
         let arrayPrice: Array<number> = [];
 
-        feed.ingredients.map((id: string) => {
-            ingredients.ingredients.map((ingredient: TIngredientType) => {
+        feed.ingredients.map((id) => {
+            ingredients.ingredients.map((ingredient) => {
                 if(id === ingredient._id) {
                     array.push(ingredient.image_mobile);
                     arrayPrice.push(ingredient.price);
@@ -92,7 +92,7 @@ export const OrderFeed = () => {
         <div className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.header} text text_type_main-large`}>Лента заказов</h1>
             <div className={`${mainStyles.scroll} custom-scroll`}>
-                {data.messages[data.messages.length - 1]?.orders.map((_feed: TWSResponseOrder, index: number) =>(
+                {data.messages?.orders.map((_feed, index) =>(
                     showFeeds(_feed, index)
                 ))}
             </div>
@@ -103,12 +103,12 @@ export const OrderFeed = () => {
                     <p className="text text_type_main-medium pb-6">Готовы:</p>
                     <div className={mainStyles.orders}>
                         <div>
-                            {doneArray.splice(0, 5).map((num: number, index: number) => (
+                            {doneArray.splice(0, 5).map((num, index) => (
                                 <p className="text text_type_digits-default pt-2" key={index}>{num}</p>
                             ))}
                         </div>
                         <div className='pl-10'>
-                            {doneArray.splice(0, 5).map((num: number, index: number) => (
+                            {doneArray.splice(0, 5).map((num, index) => (
                                 <p className="text text_type_digits-default pt-2" key={index}>{num}</p>
                             ))}
                         </div>
@@ -118,12 +118,12 @@ export const OrderFeed = () => {
                     <p className="text text_type_main-medium pb-6">В работе:</p>
                     <div className={mainStyles.orders}>
                         <div>
-                            {notDoneArray.splice(0, 5).map((num: number) => (
+                            {notDoneArray.splice(0, 5).map((num) => (
                                 <p className="text text_type_digits-default pt-2">{num}</p>
                             ))}
                         </div>
                         <div className='pl-10'>
-                            {notDoneArray.splice(0, 5).map((num: number) => (
+                            {notDoneArray.splice(0, 5).map((num) => (
                                 <p className="text text_type_digits-default pt-2">{num}</p>
                             ))}
                         </div>
@@ -132,11 +132,11 @@ export const OrderFeed = () => {
             </div>
             <div className={mainStyles.numbersMiddle}>
                 <p className="text text_type_main-medium pt-15">Выполнено за всё время</p>
-                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[data.messages.length - 1]?.total}</p>
+                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages?.total}</p>
             </div>
             <div>
                 <p className="text text_type_main-medium pt-15">Выполнено за сегодня</p>
-                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages[data.messages.length - 1]?.totalToday}</p>
+                <p className={`${mainStyles.textStyle} text text_type_digits-large`}>{data.messages?.totalToday}</p>
             </div>
         </div>
     </>
