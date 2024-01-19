@@ -1,16 +1,24 @@
+import { TApplicationActions, TConstructorReducer } from "../../types/redux-types";
+import { TIngredientType } from "../../types/types";
 import { PUT_BUN, PUT_INGREDIENT, DELETE_INGREDIENT, UPDATE_COMPONENT_ORDER } from "../actions/constructor";
 
-const initialState = {
-    selectedBun: {},
-    priceBun: null,
-    selectedIngredients: [],
-    price: null
+export type TConstructorState = {
+    selectedBun:            TIngredientType|null,
+    priceBun:               number,
+    selectedIngredients:    TIngredientType[],
+    price:                  number 
 }
 
-export const constructorReducer = (state = initialState, action) => {
+const initialState: TConstructorState = {
+    selectedBun: null,
+    priceBun: 0,
+    selectedIngredients: [],
+    price: 0
+}
+
+export const constructorReducer = (state = initialState, action: TApplicationActions): TConstructorState => {
     switch(action.type) {
         case PUT_BUN: {
-            const thisPrice = action.data.price === state.priceBun ? 0 : action.data.price;
             return {...state, price: state.price - state.priceBun + action.data.price*2, priceBun: action.data.price*2, selectedBun: action.data}
         }
         case PUT_INGREDIENT: {

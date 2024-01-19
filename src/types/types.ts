@@ -12,6 +12,9 @@ export type TIngredientType = {
     image_large:    string;
     __v:            number;
     id?:            string;
+    count?:         number;
+    lastPrice?:     number;
+    totalPrice:     number;
 }
 
 export type TPlaceComponent = {
@@ -44,4 +47,28 @@ export type TOrderDetail = {
 
 export type TProtectedRoute = {
     element: React.ReactNode;
+}
+
+export type TWSResponseOrder = {
+    createdAt: string;
+    ingredients: Array<string>;
+    name: string;
+    number: number;
+    status: string;
+    updatedAt: string;
+    _id: string;
+}
+    
+export type TWSResponseOrders = {
+    orders: Array<TWSResponseOrder>;
+    success: boolean;
+    total: number;
+    totalToday: number;
+}
+
+export type TWSResponse = {
+    connect: boolean;
+    error?: unknown;
+    messages: Array<TWSResponseOrders>
+    wsConnected: boolean;
 }
