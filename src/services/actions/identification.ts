@@ -168,6 +168,7 @@ export const authorizationUser = (login: string, password: string): AppThunk<Pro
             })
                 .then(checkReponse<TCheckToken>)
                 .then(data => {
+                    console.log(data);
                     dispatch({type:LOGIN_USER, data:data.user});
                     setCookie('accessToken', data.accessToken);
                     setCookie('refreshToken', data.refreshToken);

@@ -51,6 +51,7 @@ export const getData = (): AppThunk<Promise<unknown>> => {
             fetch(BASE_URL+'/ingredients')
             .then(checkReponse<TGetData>)
             .then(data => {
+                console.log(data);
                 dispatch({type: GET_INGREDIENTS_SUCCESS, data: data.data})
             })
             .catch(console.error)

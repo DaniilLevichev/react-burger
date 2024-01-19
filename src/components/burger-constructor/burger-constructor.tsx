@@ -54,7 +54,7 @@ const BurgerConctructor = () => {
     const accessToken: string | undefined = getCookie('accessToken');
     
     return (      
-        <div ref={dropTarget} className={mainStyles.mainDiv}>
+        <div ref={dropTarget} className={mainStyles.mainDiv} data-testid='dnd-place'>
             <div className={mainStyles.bunDiv}>
                 {dataBun ? <ConstructorElement
                     type='top'
@@ -86,7 +86,7 @@ const BurgerConctructor = () => {
             <div className={mainStyles.result}> 
                 {!!dataPrice && <a className={`${mainStyles.resultPrice} text text_type_digits-medium `}>{dataPrice}</a>}
                 {!!dataPrice && <div className={mainStyles.priceIcon}><CurrencyIcon type="primary" /></div>}
-                {dataBun && <Button onClick={() => {if (!dataUser) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
+                {dataBun && <Button data-testid='create-order' onClick={() => {if (!dataUser) navigate('/login');  setIsModalOpen(true); dispatch(crtOrder(dataBun, dataIngredient, accessToken)); }} htmlType="button" type="primary" size="medium">Офоромить заказ</Button>}
             </div>
             {isModalOpen ? dataOrder?.success ?
                 <Modal onClicked={setIsModalClose}>

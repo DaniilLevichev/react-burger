@@ -2,7 +2,7 @@ import { TWSResponse, TWSResponseOrder, TWSResponseOrders } from "../../types/ty
 import { ORDER_CONNECTION_CLOSED, ORDER_CONNECTION_ERROR, ORDER_CONNECTION_START, ORDER_CONNECTION_SUCCESS, ORDER_GET_MESSAGE } from "../actions/order-web-socket";
 import { IWSOrderActions } from "../actions/order-web-socket";
 
-type TWSState = {
+export type TWSState = {
     wsConnected: boolean;
     messages: TWSResponseOrders | null;
     connect: boolean;
