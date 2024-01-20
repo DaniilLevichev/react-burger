@@ -28,7 +28,8 @@ const initialState: TWSState = {
         return {
           ...state,
           error: undefined,
-          wsConnected: true
+          wsConnected: true,
+          connect: false
         };
 
       case FEED_CONNECTION_ERROR:

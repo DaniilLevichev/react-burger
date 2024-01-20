@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { PUT_BUN, PUT_INGREDIENT, DELETE_INGREDIENT, UPDATE_COMPONENT_ORDER } from '../services/actions/constructor';
-import { CHECK_DETAIL, DELETE_DETAIL } from '../services/actions/ingredient-detail';
+import { CHECK_DETAIL } from '../services/actions/ingredient-detail';
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from '../services/actions/ingredients';
 import { CREATE_ORDER } from '../services/actions/order';
 import { CHECK_USER, REGISTRY_USER, LOGOUT_USER, LOGIN_USER, FIX_PASSWORD, RESET_PASSWORD, EDIT_USER } from '../services/actions/identification';
@@ -47,10 +47,6 @@ interface ICheckDetail {
     readonly type: typeof CHECK_DETAIL;
     data: TIngredientType;
 }
-interface IDeleteDetail {
-    readonly type: typeof DELETE_DETAIL;
-    data: TIngredientType | null;
-}
 interface IGetIngredientsRequest {
     readonly type: typeof GET_INGREDIENTS_REQUEST;
 }
@@ -93,7 +89,7 @@ interface IEditUser {
 
 export type RootState = ReturnType<typeof store.getState>; 
 
-export type TApplicationActions = IWSOrderActions | IWSFeedActions | IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IDeleteDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
+export type TApplicationActions = IWSOrderActions | IWSFeedActions | IPutBun|IPutIngredient|IDeleteIngredient|IUpdateComponentOrder|ICheckDetail|IGetIngredientsRequest|IGetIngredientsFailed|IGetIngredientsSuccess|ICreateOrder|ICheckUser|IRegistryUser|ILogoutUser|ILoginUser|IFixPassword|IResetPassword|IEditUser;
 
 
 

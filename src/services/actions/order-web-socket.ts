@@ -18,7 +18,6 @@ type TWSResponse = {
 
 interface IWsOrderConnsectionStart {
     type: typeof ORDER_CONNECTION_START
-    payload: string
 }
 
 interface IWsOrderConnsectionSuccess {

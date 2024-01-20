@@ -31,7 +31,14 @@ export const ShowIngredient = (props: TShowIngredient) =>{
 
     if (props.ingredient.type === props.type) {
         return (
-            <div ref={dragRef} className={mainStyles.showPadding} onClick={() => {props.openModal(props.ingredient._id); props.setIngredient(props.ingredient); dispatch({type: CHECK_DETAIL, data:props.ingredient})}}>       
+            <div 
+                data-testid='ingredient' 
+                ref={dragRef}
+                className={mainStyles.showPadding} 
+                onClick={() => {props.openModal(props.ingredient._id);
+                props.setIngredient(props.ingredient); 
+                dispatch({type: CHECK_DETAIL, data:props.ingredient})}}
+            >       
                 {!!dataIngredient && !!dataBun && countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type) > 0 && <Counter count={!!dataIngredient && !!dataBun && countIngredient(dataIngredient, dataBun, props.ingredient._id, props.ingredient.type)} size="small" />}
                 <img src={props.ingredient.image}/>
                 <div className={mainStyles.price}>

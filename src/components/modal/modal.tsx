@@ -27,7 +27,12 @@ const Modal = (props: TModalType) => {
         <div className={mainStyles.square}>
           <div className={mainStyles.header} >
             <h1>{props.header}</h1>
-            <CloseIcon type='primary' onClick={()=>{props.onClicked()}}/>
+            <div data-testid='close-modal' >
+              <CloseIcon 
+                type='primary' 
+                onClick={()=>{props.onClicked()}}
+              />
+            </div>
           </div>
           {props.children}
         </div>

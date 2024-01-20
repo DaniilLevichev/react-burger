@@ -6,7 +6,7 @@ type TUserData = {
     name?: string
 } 
 
-type TUserReducer = {
+export type TUserReducer = {
     userData: TUserData|null,
     isForgotPassword: boolean
 }

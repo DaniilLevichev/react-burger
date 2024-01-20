@@ -5,12 +5,7 @@ import { useDispatch, useSelector} from '../../types/redux-types';
 import { useDrag } from "react-dnd";
 import { ShowIngredient } from './show-ingredient';
 import { useInView } from 'react-intersection-observer';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { DELETE_DETAIL } from '../../services/actions/ingredient-detail';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { TIngredientType } from '../../types/types'
-
 
 const BurgerIngredients = () => {
 
@@ -20,11 +15,6 @@ const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const setIsModalClose = () => {
-        setIsModalOpen(false);
-        dispatch ({type: DELETE_DETAIL, data:null});
-    }
 
     const [refBun,      inViewBun]   = useInView();
     const [refSauce,    inViewSauce] = useInView();
@@ -52,7 +42,7 @@ const BurgerIngredients = () => {
     }
     
     return (
-        <div ref={dragRef}  className={mainStyles.mainDiv}>
+        <div ref={dragRef} className={mainStyles.mainDiv}>
             <h1 className={`${mainStyles.headers} text text_type_main-large`}>Соберите бургер </h1>  
             <div className={mainStyles.tabs}>
                 <Tab value="Булки" active={current === 'Булки'} onClick={setTab}>

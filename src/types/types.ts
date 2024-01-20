@@ -14,7 +14,7 @@ export type TIngredientType = {
     id?:            string;
     count?:         number;
     lastPrice?:     number;
-    totalPrice:     number;
+    totalPrice?:     number;
 }
 
 export type TPlaceComponent = {

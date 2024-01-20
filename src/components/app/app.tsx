@@ -42,17 +42,17 @@ function App() {
     <div>
       <AppHeader/>
       <Routes location={background || location}>
-        <Route path='/'                element={<MainPage/>}/>
-        <Route path='/login'           element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
-        <Route path='/register'        element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
-        <Route path='/forgot-password' element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
-        <Route path='/reset-password'  element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
-        <Route path='/profile'         element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
-        <Route path='/profile/orders'  element={<ProtectedRouteUnAuthorized element={<OrdersHistoryPage/>}/>}/>
-        <Route path='/profile/orders/:number'  element={<ProtectedRouteUnAuthorized element={<OrderNumber/>}/>}/>
-        <Route path='/ingredients/:id' element={<IngredientDetails/>}/>
-        <Route path='/feed/:number'    element={<OrderNumber/>}/>
-        <Route path='/feed'            element={<OrderFeed/>}/>
+        <Route path='/'                         element={<MainPage/>}/>
+        <Route path='/login'                    element={<ProtectedRouteAuthorized element={<AutorizationPage/>}/>}/>
+        <Route path='/register'                 element={<ProtectedRouteAuthorized element={<RegisterPage/>}/>}/>
+        <Route path='/forgot-password'          element={<ProtectedRouteAuthorized element={<FixPasswordPage/>}/>}/>
+        <Route path='/reset-password'           element={<ProtectedRouteAuthorized element={<ResetPasswordPage/>}/>}/>
+        <Route path='/profile'                  element={<ProtectedRouteUnAuthorized element={<ProfilePage/>}/>}/>
+        <Route path='/profile/orders'           element={<ProtectedRouteUnAuthorized element={<OrdersHistoryPage/>}/>}/>
+        <Route path='/profile/orders/:number'   element={<ProtectedRouteUnAuthorized element={<OrderNumber/>}/>}/>
+        <Route path='/ingredients/:id'          element={<IngredientDetails/>}/>
+        <Route path='/feed/:number'             element={<OrderNumber/>}/>
+        <Route path='/feed'                     element={<OrderFeed/>}/>
       </Routes>
       {background && 
       <Routes>

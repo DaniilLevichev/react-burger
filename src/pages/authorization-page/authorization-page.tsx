@@ -36,6 +36,7 @@ export const AutorizationPage = () => {
             <form onSubmit={confirm}>
                 <div className={mainStyles.input}>
                     <EmailInput
+                        data-testid='email' 
                         name={'email'}
                         isIcon={false}
                         onChange = {e => onChange(e)}
@@ -44,6 +45,7 @@ export const AutorizationPage = () => {
                 </div>
                 <div className={mainStyles.input}>
                     <PasswordInput
+                        data-testid='password' 
                         name={'password'}
                         extraClass="mb-2"
                         onChange = {e => onChange(e)}   
@@ -51,7 +53,7 @@ export const AutorizationPage = () => {
                     />
                 </div>
                 <div className={mainStyles.button}>
-                    <Button htmlType="submit" type="primary" size="medium">Войти</Button>
+                    <Button data-testid='login_button' htmlType="submit" type="primary" size="medium">Войти</Button>
                 </div>
             </form>
             <div className={mainStyles.linkText}>
